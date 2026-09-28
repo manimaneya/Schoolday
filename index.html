@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0B1E3F" />
+<meta name="description" content="SCHOOLDAY — L'université IA mondiale. 9 professeurs intelligents, 200+ cours, classement planétaire." />
+<title>SCHOOLDAY — L'université IA mondiale</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --night: #0B1E3F; --night-2: #0F2A56; --night-3: #163468;
+  --gold: #FFC93C; --gold-2: #FFD966;
+  --cyan: #00D4FF; --purple: #7C3AED;
+  --green: #22C55E; --red: #EF4444; --yellow: #F59E0B;
+  --white: #FFFFFF;
+  --white-90: rgba(255,255,255,0.90);
+  --white-70: rgba(255,255,255,0.70);
+  --white-60: rgba(255,255,255,0.60);
+  --white-40: rgba(255,255,255,0.40);
+  --white-20: rgba(255,255,255,0.20);
+  --white-10: rgba(255,255,255,0.10);
+  --white-05: rgba(255,255,255,0.05);
+  --radius: 16px; --radius-lg: 24px; --radius-sm: 10px;
+  --shadow: 0 20px 60px rgba(0,0,0,0.35);
+  --shadow-gold: 0 8px 24px rgba(255,201,60,0.28);
+  --transition: 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--night); color: var(--white);
+  min-height: 100vh; overflow-x: hidden; line-height: 1.55;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  font-size: 15px;
+}
+h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; line-height: 1.15; }
+button { font-family: inherit; }
+input, select, textarea { font-family: inherit; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+.hidden { display: none !important; }
+
+.orbs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.32; }
+.orb-1 { width: 520px; height: 520px; background: var(--cyan);   top: -120px; left: -120px; }
+.orb-2 { width: 400px; height: 400px; background: var(--gold);   bottom: -150px; right: -100px; opacity: 0.20; }
+.orb-3 { width: 380px; height: 380px; background: var(--purple); top: 40%; left: 50%; opacity: 0.15; }
+
+.app { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; }
+.container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  background: rgba(11,30,63,0.72);
+  border-bottom: 1px solid var(--white-10);
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; max-width: 1200px; margin: 0 auto; gap: 16px; }
+.logo { display: flex; align-items: center; gap: 10px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; color: var(--white); cursor: pointer; background: none; border: none; padding: 0; }
+.logo-icon { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, var(--gold), #FF9A3C); display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 6px 20px rgba(255,201,60,0.35); flex-shrink: 0; }
+.logo-text span { color: var(--gold); }
+.nav-links { display: flex; gap: 4px; align-items: center; }
+.nav-link { padding: 8px 14px; border-radius: 8px; color: var(--white-60); text-decoration: none; font-size: 14px; font-weight: 500; background: none; border: none; cursor: pointer; transition: var(--transition); white-space: nowrap; }
+.nav-link:hover { color: var(--white); background: var(--white-05); }
+.nav-link.active { color: var(--gold); background: rgba(255,201,60,0.08); }
+.fb-status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+.fb-on  { background: rgba(34,197,94,0.15); color: var(--green); }
+.fb-off { background: rgba(245,158,11,0.15); color: var(--yellow); }
+.fb-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; border: none; cursor: pointer; text-decoration: none; transition: var(--transition); white-space: nowrap; }
+.btn-primary { background: var(--gold); color: var(--night); box-shadow: var(--shadow-gold); }
+.btn-primary:hover { background: var(--gold-2); transform: translateY(-1px); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.btn-ghost { background: transparent; color: var(--white); border: 1px solid var(--white-20); }
+.btn-ghost:hover { border-color: var(--cyan); background: var(--white-05); }
+.btn-cyan { background: var(--cyan); color: var(--night); }
+.btn-danger { background: transparent; color: var(--red); border: 1px solid rgba(239,68,68,0.4); }
+.btn-danger:hover { background: rgba(239,68,68,0.1); }
+.btn-google { background: #fff; color: #333; border: 1px solid #ddd; }
+.btn-google:hover { background: #f5f5f5; }
+.btn-block { width: 100%; }
+.btn-sm { padding: 8px 14px; font-size: 13px; }
+
+.card { background: var(--white-05); border: 1px solid var(--white-10); border-radius: var(--radius); padding: 24px; backdrop-filter: blur(20px); transition: var(--transition); }
+
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 13px; font-weight: 500; color: var(--white-60); margin-bottom: 6px; }
+.input, .select, .textarea { width: 100%; padding: 13px 16px; background: var(--white-05); border: 1px solid var(--white-10); border-radius: var(--radius-sm); color: var(--white); font-size: 14px; transition: var(--transition); }
+.input::placeholder, .textarea::placeholder { color: var(--white-40); }
+.input:focus, .select:focus, .textarea:focus { outline: none; border-color: var(--cyan); background: rgba(0,212,255,0.05); box-shadow: 0 0 0 3px rgba(0,212,255,0.12); }
+.select option { background: var(--night-2); color: var(--white); }
+.error-text { color: var(--red); font-size: 12px; margin-top: 4px; display: block; }
+
+.badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; }
+.badge-cyan { background: rgba(0,212,255,0.15); color: var(--cyan); }
+
+.screen { display: none; animation: fadeUp 0.4s ease; }
+.screen.active { display: block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+.hero { padding: 80px 0 60px; text-align: center; }
+.hero h1 { font-size: clamp(48px, 9vw, 96px); font-weight: 700; line-height: 1; letter-spacing: -0.04em; }
+.hero h1 span { color: var(--gold); }
+.hero p { margin: 24px auto 0; max-width: 640px; color: var(--white-60); font-size: 18px; }
+.hero-actions { margin-top: 40px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-top: 72px; }
+.stat { background: var(--white-05); border: 1px solid var(--white-10); border-radius: var(--radius); padding: 24px 16px; text-align: center; backdrop-filter: blur(20px); }
+.stat .num { font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700; color: var(--gold); }
+.stat .lbl { font-size: 13px; color: var(--white-60); margin-top: 6px; }
+.section { padding: 60px 0; }
+.section-head { text-align: center; margin-bottom: 40px; }
+.section-head h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 700; }
+.section-head p { color: var(--white-60); margin-top: 8px; }
+.profs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.prof { background: linear-gradient(160deg, var(--white-05), transparent); border: 1px solid var(--white-10); border-radius: var(--radius); padding: 22px; cursor: pointer; transition: var(--transition); text-align: left; color: var(--white); font-family: inherit; }
+.prof:hover { border-color: var(--cyan); transform: translateY(-3px); background: linear-gradient(160deg, rgba(0,212,255,0.08), transparent); }
+.prof-emoji { font-size: 40px; margin-bottom: 12px; }
+.prof-name { font-weight: 700; font-size: 15px; }
+.prof-subj { color: var(--white-60); font-size: 13px; margin-top: 2px; }
+
+.auth-wrap { min-height: calc(100vh - 73px); display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+.auth-card { width: 100%; max-width: 560px; background: rgba(255,255,255,0.05); border: 1px solid var(--white-10); border-radius: var(--radius-lg); padding: 40px; backdrop-filter: blur(30px); box-shadow: var(--shadow); }
+.auth-card h1 { font-size: 32px; text-align: center; margin-bottom: 8px; }
+.auth-card .sub { text-align: center; color: var(--white-60); margin-bottom: 32px; font-size: 14px; }
+.auth-divider { display: flex; align-items: center; gap: 12px; margin: 24px 0; color: var(--white-40); font-size: 12px; }
+.auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--white-10); }
+.steps { display: flex; gap: 8px; margin-bottom: 28px; }
+.step { flex: 1; height: 4px; border-radius: 100px; background: var(--white-10); transition: var(--transition); }
+.step.active { background: var(--gold); }
+.subjects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
+.subject-chip { padding: 14px 12px; border-radius: var(--radius-sm); background: var(--white-05); border: 1px solid var(--white-10); color: var(--white); cursor: pointer; transition: var(--transition); text-align: left; font-family: inherit; }
+.subject-chip:hover { border-color: var(--cyan); }
+.subject-chip.selected { background: var(--gold); color: var(--night); border-color: var(--gold); }
+.subject-chip .emoji { font-size: 22px; display: block; }
+.subject-chip .name { font-weight: 600; font-size: 13px; margin-top: 4px; display: block; }
+.subject-chip .teacher { font-size: 11px; opacity: 0.7; margin-top: 2px; display: block; }
+.matricule-box { background: rgba(255,201,60,0.1); border: 1px solid var(--gold); border-radius: var(--radius); padding: 20px; text-align: center; margin: 20px 0; }
+.matricule-box .label { font-size: 12px; color: var(--white-60); text-transform: uppercase; letter-spacing: 0.1em; }
+.matricule-box .value { font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 700; color: var(--gold); margin-top: 8px; word-break: break-all; }
+
+.dash { padding: 40px 0; }
+.dash-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; margin-bottom: 32px; }
+.dash-header h1 { font-size: 32px; }
+.dash-header .meta { color: var(--white-60); font-size: 14px; margin-top: 6px; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 40px; }
+.two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+@media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+.leaderboard { display: flex; flex-direction: column; }
+.leaderboard-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--white-05); }
+.leaderboard-row:last-child { border-bottom: none; }
+.rank { width: 34px; height: 34px; border-radius: 8px; background: var(--white-05); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; font-family: 'JetBrains Mono', monospace; flex-shrink: 0; }
+.rank.top-1 { background: linear-gradient(135deg, var(--gold), #FF9A3C); color: var(--night); }
+.rank.top-2 { background: linear-gradient(135deg, #C0C0C0, #808080); color: var(--night); }
+.rank.top-3 { background: linear-gradient(135deg, #CD7F32, #8B4513); color: white; }
+.lb-name { flex: 1; font-size: 14px; min-width: 0; }
+.lb-xp { color: var(--gold); font-weight: 700; font-size: 14px; }
+.course-list { display: flex; flex-direction: column; gap: 12px; }
+.course-item { display: flex; align-items: center; gap: 14px; padding: 14px; background: var(--white-05); border: 1px solid var(--white-10); border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition); }
+.course-item:hover { border-color: var(--cyan); transform: translateX(4px); }
+.course-emoji { width: 44px; height: 44px; border-radius: 10px; background: var(--white-05); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.course-info { flex: 1; min-width: 0; }
+.course-title { font-weight: 600; font-size: 14px; }
+.course-teacher { font-size: 12px; color: var(--white-60); margin-top: 2px; }
+.course-progress { width: 100%; height: 4px; background: var(--white-10); border-radius: 100px; margin-top: 6px; overflow: hidden; }
+.course-progress > div { height: 100%; background: linear-gradient(90deg, var(--gold), #FF9A3C); transition: width 0.6s ease; }
+
+.classroom { display: flex; flex-direction: column; height: calc(100vh - 73px); }
+.classroom-header { padding: 16px 24px; border-bottom: 1px solid var(--white-10); display: flex; align-items: center; gap: 14px; }
+.classroom-header .avatar { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--cyan), var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.classroom-header .info h3 { font-size: 16px; }
+.classroom-header .info p { font-size: 12px; color: var(--white-60); }
+.messages { flex: 1; overflow-y: auto; padding: 24px; max-width: 900px; margin: 0 auto; width: 100%; }
+.messages::-webkit-scrollbar { width: 6px; }
+.messages::-webkit-scrollbar-thumb { background: var(--white-10); border-radius: 100px; }
+.msg { display: flex; gap: 12px; margin-bottom: 20px; animation: fadeUp 0.3s ease; }
+.msg.user { flex-direction: row-reverse; }
+.msg .bubble { max-width: 78%; padding: 14px 18px; border-radius: 16px; font-size: 14px; line-height: 1.6; word-wrap: break-word; }
+.msg.user .bubble { background: linear-gradient(135deg, var(--gold), #FFB53C); color: var(--night); font-weight: 500; border-bottom-right-radius: 4px; }
+.msg.ai .bubble { background: var(--white-05); border: 1px solid var(--white-10); border-bottom-left-radius: 4px; }
+.msg .bubble code { background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+.msg .bubble pre { background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; margin: 8px 0; }
+.msg .bubble strong { color: var(--gold); font-weight: 700; }
+.typing { display: inline-flex; gap: 4px; }
+.typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--white-40); animation: bounce 1.4s infinite; }
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-6px); opacity: 1; } }
+.composer { padding: 16px 24px; border-top: 1px solid var(--white-10); background: rgba(11,30,63,0.6); backdrop-filter: blur(20px); }
+.composer-inner { max-width: 900px; margin: 0 auto; display: flex; gap: 10px; align-items: flex-end; }
+.composer .input { flex: 1; }
+.quick-prompts { display: flex; gap: 8px; flex-wrap: wrap; max-width: 900px; margin: 0 auto 12px; }
+.quick-prompts button { padding: 6px 12px; border-radius: 100px; background: var(--white-05); border: 1px solid var(--white-10); color: var(--white-60); font-size: 12px; cursor: pointer; font-family: inherit; transition: var(--transition); }
+.quick-prompts button:hover { border-color: var(--cyan); color: var(--white); }
+
+.exam-q { margin-bottom: 24px; }
+.exam-q .question { font-weight: 600; margin-bottom: 12px; font-size: 15px; }
+.exam-q .options { display: flex; flex-direction: column; gap: 8px; }
+.exam-q .option { padding: 12px 16px; border-radius: var(--radius-sm); background: var(--white-05); border: 1px solid var(--white-10); cursor: pointer; transition: var(--transition); font-size: 14px; text-align: left; color: var(--white); font-family: inherit; }
+.exam-q .option:hover { border-color: var(--cyan); }
+.exam-q .option.selected { background: rgba(0,212,255,0.12); border-color: var(--cyan); color: var(--cyan); }
+
+.toasts { position: fixed; top: 90px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { padding: 14px 18px; border-radius: var(--radius-sm); background: var(--night-2); border: 1px solid var(--white-10); color: var(--white); font-size: 14px; min-width: 260px; box-shadow: var(--shadow); animation: slideIn 0.3s ease; pointer-events: auto; }
+.toast.success { border-color: var(--green); }
+.toast.error   { border-color: var(--red); }
+.toast.info    { border-color: var(--cyan); }
+@keyframes slideIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+
+.sd-footer { margin-top: 80px; padding: 60px 24px 32px; border-top: 1px solid var(--white-10); background: linear-gradient(180deg, transparent, rgba(0,212,255,0.03)); position: relative; z-index: 1; }
+.sd-footer-inner { max-width: 1200px; margin: 0 auto; }
+.sd-partners { margin-bottom: 48px; padding-bottom: 40px; border-bottom: 1px solid var(--white-10); }
+.sd-partners-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--white-40); text-align: center; margin-bottom: 24px; }
+.sd-partners-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; max-width: 800px; margin: 0 auto; }
+.sd-partner { display: flex; align-items: center; gap: 14px; padding: 16px 20px; background: var(--white-05); border: 1px solid var(--white-10); border-radius: var(--radius); text-decoration: none; color: var(--white); transition: var(--transition); position: relative; overflow: hidden; }
+.sd-partner:hover { border-color: var(--cyan); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,212,255,0.15); }
+.sd-partner::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,201,60,0.08), transparent); transition: left 0.6s; }
+.sd-partner:hover::before { left: 100%; }
+.sd-partner-2d { display: flex; align-items: center; gap: 14px; width: 100%; }
+.sd-partner-logo { width: 52px; height: 52px; flex-shrink: 0; filter: drop-shadow(0 4px 12px rgba(255,201,60,0.25)); transition: var(--transition); }
+.sd-partner:hover .sd-partner-logo { transform: rotate(-4deg) scale(1.05); filter: drop-shadow(0 6px 18px rgba(0,212,255,0.4)); }
+.sd-partner-info { display: flex; flex-direction: column; min-width: 0; }
+.sd-partner-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.05em; background: linear-gradient(135deg, #FFC93C, #00D4FF, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.sd-partner-role { font-size: 12px; color: var(--white-60); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sd-partner-xot2kk { border-color: rgba(255,201,60,0.3); background: linear-gradient(135deg, rgba(255,201,60,0.06), rgba(0,212,255,0.04)); }
+.sd-partner-xot2kk:hover { border-color: var(--gold); box-shadow: 0 10px 30px rgba(255,201,60,0.25); }
+.sd-partner-empty { border-style: dashed; opacity: 0.6; }
+.sd-partner-empty:hover { opacity: 1; border-color: var(--gold); }
+.sd-partner-placeholder { width: 52px; height: 52px; border-radius: 50%; background: var(--white-05); border: 1px dashed var(--white-40); display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--white-40); flex-shrink: 0; }
+.sd-partner-empty .sd-partner-name { background: none; -webkit-text-fill-color: var(--white-60); color: var(--white-60); font-weight: 500; }
+.sd-footer-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 32px; margin-bottom: 40px; }
+.sd-footer-col { display: flex; flex-direction: column; gap: 10px; }
+.sd-footer-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+.sd-footer-col a { color: var(--white-60); text-decoration: none; font-size: 13px; transition: var(--transition); }
+.sd-footer-col a:hover { color: var(--cyan); transform: translateX(3px); }
+.sd-footer-bottom { padding-top: 24px; border-top: 1px solid var(--white-10); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.sd-footer-copy { font-size: 13px; color: var(--white-40); }
+.sd-footer-copy strong { color: var(--gold); }
+.sd-footer-partner-tag { font-size: 12px; color: var(--white-40); display: flex; align-items: center; gap: 8px; }
+.sd-footer-partner-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: 0.08em; background: linear-gradient(135deg, #FFC93C, #00D4FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 13px; }
+
+@media (max-width: 768px) {
+  .nav-links .nav-link { padding: 8px 10px; font-size: 13px; }
+  .nav-links .nav-link[data-nav="ranking"],
+  .nav-links .nav-link[data-nav="exam"] { display: none; }
+  .fb-status { display: inline-flex; font-size: 10px; padding: 3px 8px; } /* ✅ CORRIGÉ : visible en mobile */
+  .auth-card { padding: 28px 20px; }
+  .hero { padding: 50px 0 30px; }
+  .messages { padding: 16px; }
+  .msg .bubble { max-width: 88%; }
+  .sd-footer { padding: 40px 16px 24px; }
+  .sd-footer-bottom { flex-direction: column; text-align: center; }
+  .sd-partner-name { font-size: 14px; }
+  .sd-partner-logo, .sd-partner-placeholder { width: 44px; height: 44px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="orbs" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+<div class="app">
+
+  <nav class="nav" role="navigation" aria-label="Navigation principale">
+    <div class="nav-inner">
+      <button class="logo" onclick="router.go('home')" aria-label="Accueil">
+        <div class="logo-icon">🎓</div>
+        <div class="logo-text">SCHOOL<span>DAY</span></div>
+      </button>
+      <div class="nav-links">
+        <span class="fb-status" id="fb-status">
+          <span class="fb-dot"></span>
+          <span id="fb-status-text">Firebase</span>
+        </span>
+        <button class="nav-link" data-nav="home"      onclick="router.go('home')">Accueil</button>
+        <button class="nav-link" data-nav="dashboard" onclick="router.go('dashboard')">Dashboard</button>
+        <button class="nav-link" data-nav="ranking"   onclick="router.go('ranking')">Classement</button>
+        <button class="nav-link" data-nav="exam"      onclick="router.go('exam')">Examen</button>
+        <button class="nav-link" id="nav-auth"        onclick="router.go('login')">Connexion</button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="screen active" id="screen-home">
+    <div class="container">
+      <div class="hero">
+        <h1>SCHOOL<span>DAY</span></h1>
+        <p>L'université IA mondiale. 9 professeurs intelligents, 200+ cours, un classement planétaire. Apprends chaque jour, partout dans le monde.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="router.go('register')">Créer mon compte gratuit →</button>
+          <button class="btn btn-ghost"   onclick="router.go('login')">J'ai déjà un compte</button>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="num">9</div>    <div class="lbl">Professeurs IA</div></div>
+          <div class="stat"><div class="num">200+</div> <div class="lbl">Cours disponibles</div></div>
+          <div class="stat"><div class="num">150+</div> <div class="lbl">Pays couverts</div></div>
+          <div class="stat"><div class="num">24/7</div> <div class="lbl">Disponibilité</div></div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-head">
+          <h2>Tes professeurs IA</h2>
+          <p>Chaque professeur est une IA spécialisée dans sa matière</p>
+        </div>
+        <div class="profs-grid" id="home-profs"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-register">
+    <div class="auth-wrap">
+      <div class="auth-card">
+        <h1>SCHOOLD<span style="color:var(--gold)">AY</span></h1>
+        <p class="sub">Rejoins l'université IA mondiale en 2 minutes</p>
+
+        <div class="steps">
+          <div class="step active" id="step-1"></div>
+          <div class="step"        id="step-2"></div>
+        </div>
+
+        <form id="form-register-1" onsubmit="register.step1(event)">
+          <div class="field">
+            <label for="reg-fullname">Nom complet</label>
+            <input class="input" id="reg-fullname" name="fullName" placeholder="Ex : Koffi Yao" required minlength="3" autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="reg-email">Email</label>
+            <input class="input" id="reg-email" name="email" type="email" placeholder="ton@email.com" required autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="reg-phone">Téléphone (format international)</label>
+            <input class="input" id="reg-phone" name="phone" placeholder="+2250700000000" required pattern="^\+\d{8,15}$" autocomplete="tel" />
+          </div>
+          <div class="field">
+            <label for="reg-country">Pays</label>
+            <select class="input" id="reg-country" name="country" required>
+              <option value="">Choisis ton pays</option>
+              <option>Côte d'Ivoire</option><option>Sénégal</option>
+              <option>Mali</option><option>Burkina Faso</option>
+              <option>Bénin</option><option>Togo</option>
+              <option>Niger</option><option>Cameroun</option>
+              <option>Gabon</option><option>Congo</option>
+              <option>RDC</option><option>Maroc</option>
+              <option>Algérie</option><option>Tunisie</option>
+              <option>Égypte</option><option>Nigeria</option>
+              <option>Ghana</option><option>Kenya</option>
+              <option>Afrique du Sud</option><option>France</option>
+              <option>Belgique</option><option>Suisse</option>
+              <option>Canada</option><option>USA</option>
+              <option>Chine</option><option>Japon</option>
+              <option>Inde</option><option>Brésil</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="reg-password">Mot de passe (8+ caractères)</label>
+            <input class="input" id="reg-password" name="password" type="password" required minlength="8" placeholder="••••••••" autocomplete="new-password" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="reg-btn-1">Continuer →</button>
+        </form>
+
+        <div class="auth-divider">ou</div>
+        <button class="btn btn-google btn-block" onclick="register.google()">
+          <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.79 2.72v2.26h2.9c1.7-1.56 2.69-3.86 2.69-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.9-2.26c-.81.54-1.84.86-3.06.86-2.35 0-4.34-1.59-5.05-3.72H.96v2.33A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.95 10.7a5.4 5.4 0 0 1 0-3.4V4.96H.96a9 9 0 0 0 0 8.07l2.99-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.59C13.46.89 11.43 0 9 0A9 9 0 0 0 .96 4.96L3.95 7.3C4.66 5.17 6.65 3.58 9 3.58z"/></svg>
+          Continuer avec Google
+        </button>
+
+        <p class="sub" style="margin-top:20px;margin-bottom:0">
+          Déjà inscrit ? <a href="#" onclick="router.go('login');return false" style="color:var(--cyan)">Se connecter</a>
+        </p>
+
+        <form id="form-register-2" class="hidden" onsubmit="register.submit(event)" style="margin-top:24px">
+          <h3 style="margin-bottom:16px">Choisis tes matières</h3>
+          <div class="subjects-grid" id="subjects-grid"></div>
+          <div class="error-text hidden" id="subjects-error">Choisis au moins une matière</div>
+          <div style="display:flex;gap:8px;margin-top:16px">
+            <button type="button" class="btn btn-ghost" onclick="register.back()">← Retour</button>
+            <button type="submit" class="btn btn-primary" style="flex:1" id="reg-btn-2">Créer mon compte 🚀</button>
+          </div>
+        </form>
+
+        <div id="form-register-3" class="hidden" style="text-align:center;margin-top:24px">
+          <div style="font-size:64px">🎉</div>
+          <h2 style="margin-top:16px">Bienvenue sur SCHOOLDAY !</h2>
+          <div class="matricule-box">
+            <div class="label">Ton matricule étudiant</div>
+            <div class="value" id="matricule-value">—</div>
+          </div>
+          <p style="font-size:13px;color:var(--white-60)">Un SMS de confirmation a été envoyé 📱 (démo)</p>
+          <button class="btn btn-primary btn-block" style="margin-top:16px" onclick="router.go('dashboard')">Aller à mon dashboard →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-login">
+    <div class="auth-wrap">
+      <div class="auth-card" style="max-width:440px">
+        <h1>SCHOOLD<span style="color:var(--gold)">AY</span></h1>
+        <p class="sub">Content de te revoir 👋</p>
+        <form onsubmit="login.submit(event)">
+          <div class="field">
+            <label for="login-email">Email</label>
+            <input class="input" id="login-email" name="email" type="email" required placeholder="ton@email.com" autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="login-password">Mot de passe</label>
+            <input class="input" id="login-password" name="password" type="password" required placeholder="••••••••" autocomplete="current-password" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="login-btn">Se connecter</button>
+        </form>
+        <div class="auth-divider">ou</div>
+        <button class="btn btn-google btn-block" onclick="login.google()">
+          <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.79 2.72v2.26h2.9c1.7-1.56 2.69-3.86 2.69-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.9-2.26c-.81.54-1.84.86-3.06.86-2.35 0-4.34-1.59-5.05-3.72H.96v2.33A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.95 10.7a5.4 5.4 0 0 1 0-3.4V4.96H.96a9 9 0 0 0 0 8.07l2.99-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.59C13.46.89 11.43 0 9 0A9 9 0 0 0 .96 4.96L3.95 7.3C4.66 5.17 6.65 3.58 9 3.58z"/></svg>
+          Continuer avec Google
+        </button>
+        <div style="text-align:center;font-size:13px;color:var(--white-60);margin-top:24px">
+          Pas de compte ? <a href="#" onclick="router.go('register');return false" style="color:var(--cyan)">S'inscrire</a>
+        </div>
+        <div style="text-align:center;font-size:12px;color:var(--white-40);margin-top:8px">
+          Démo admin : admin@schoolday.ai / Admin123!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-dashboard">
+    <div class="container dash">
+      <div class="dash-header">
+        <div>
+          <h1 id="dash-hello">Salut 👋</h1>
+          <div class="meta">
+            Matricule : <span class="mono" style="color:var(--gold)" id="dash-matricule">—</span>
+            • <span id="dash-country">—</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost btn-sm" onclick="router.go('exam')">📝 Examen</button>
+          <button class="btn btn-danger btn-sm" onclick="auth.logout()">Déconnexion</button>
+        </div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="card" style="text-align:center">
+          <div style="font-size:28px">⚡</div>
+          <div style="font-size:28px;font-weight:700;color:var(--gold);margin-top:6px" id="dash-xp">0</div>
+          <div style="font-size:12px;color:var(--white-60)">XP Total</div>
+        </div>
+        <div class="card" style="text-align:center">
+          <div style="font-size:28px">🎯</div>
+          <div style="font-size:28px;font-weight:700;color:var(--gold);margin-top:6px" id="dash-level">1</div>
+          <div style="font-size:12px;color:var(--white-60)">Niveau</div>
+        </div>
+        <div class="card" style="text-align:center">
+          <div style="font-size:28px">📚</div>
+          <div style="font-size:28px;font-weight:700;color:var(--gold);margin-top:6px" id="dash-courses">0</div>
+          <div style="font-size:12px;color:var(--white-60)">Cours suivis</div>
+        </div>
+        <div class="card" style="text-align:center">
+          <div style="font-size:28px">🏆</div>
+          <div style="font-size:28px;font-weight:700;color:var(--gold);margin-top:6px" id="dash-rank">—</div>
+          <div style="font-size:12px;color:var(--white-60)">Rang mondial</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <h2 style="margin-bottom:16px;font-size:20px">📖 Mes cours</h2>
+          <div class="course-list" id="dash-courses-list"></div>
+        </div>
+        <div>
+          <h2 style="margin-bottom:16px;font-size:20px">🏆 Top 10 mondial</h2>
+          <div class="card leaderboard" id="dash-leaderboard"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-classroom">
+    <div class="classroom">
+      <div class="classroom-header">
+        <button class="btn btn-ghost btn-sm" onclick="router.go('dashboard')" aria-label="Retour">←</button>
+        <div class="avatar" id="cl-avatar">🧮</div>
+        <div class="info">
+          <h3 id="cl-name">Professeur IA</h3>
+          <p id="cl-subject">Matière</p>
+        </div>
+        <div style="margin-left:auto">
+          <span class="badge badge-cyan">● En ligne</span>
+        </div>
+      </div>
+      <div class="messages" id="cl-messages"></div>
+      <div class="composer">
+        <div class="quick-prompts" id="cl-quick"></div>
+        <div class="composer-inner">
+          <input class="input" id="cl-input" placeholder="Pose ta question au professeur…"
+                 onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();classroom.send()}" />
+          <button class="btn btn-primary" id="cl-send-btn" onclick="classroom.send()">Envoyer</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-ranking">
+    <div class="container" style="padding:40px 24px">
+      <div class="section-head">
+        <h2>🏆 Classement mondial</h2>
+        <p>Top 100 étudiants par XP, tous pays confondus</p>
+      </div>
+      <div class="card" id="ranking-full"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-exam">
+    <div class="container" style="padding:40px 24px;max-width:820px">
+      <div class="section-head">
+        <h2>📝 Examen — Mathématiques</h2>
+        <p>Professeur : Prof. Sigma • 3 questions • 20 points</p>
+      </div>
+      <div class="card" id="exam-body"></div>
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <button class="btn btn-primary" onclick="exam.submit()">Soumettre l'examen</button>
+        <button class="btn btn-ghost"   onclick="exam.reset()">Recommencer</button>
+      </div>
+      <div id="exam-result" style="margin-top:16px"></div>
+    </div>
+  </section>
+
+  <footer class="sd-footer">
+    <div class="sd-footer-inner">
+      <div class="sd-partners">
+        <div class="sd-partners-label">Nos partenaires officiels</div>
+        <div class="sd-partners-grid">
+          <a href="https://xot2kk.com" target="_blank" rel="noopener"
+             class="sd-partner sd-partner-xot2kk" aria-label="XOT2KK — Partenaire officiel">
+            <div class="sd-partner-2d">
+              <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="sd-partner-logo" role="img" aria-hidden="true">
+                <defs>
+                  <linearGradient id="xot2kk-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FFC93C"/>
+                    <stop offset="50%" stop-color="#00D4FF"/>
+                    <stop offset="100%" stop-color="#7C3AED"/>
+                  </linearGradient>
+                  <filter id="xot2kk-glow">
+                    <feGaussianBlur stdDeviation="2" result="blur"/>
+                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
+                </defs>
+                <circle cx="60" cy="60" r="55" fill="none" stroke="url(#xot2kk-grad)" stroke-width="2" opacity="0.6"/>
+                <polygon points="60,15 100,37 100,83 60,105 20,83 20,37" fill="none" stroke="url(#xot2kk-grad)" stroke-width="2" filter="url(#xot2kk-glow)"/>
+                <text x="60" y="72" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="34" font-weight="700" fill="url(#xot2kk-grad)">X</text>
+                <circle cx="30" cy="30" r="2" fill="#FFC93C"/>
+                <circle cx="90" cy="30" r="2" fill="#00D4FF"/>
+                <circle cx="30" cy="90" r="2" fill="#00D4FF"/>
+                <circle cx="90" cy="90" r="2" fill="#7C3AED"/>
+              </svg>
+              <div class="sd-partner-info">
+                <div class="sd-partner-name">XOT2KK</div>
+                <div class="sd-partner-role">Partenaire technologique 2D</div>
+              </div>
+            </div>
+          </a>
+          <a href="#" class="sd-partner sd-partner-empty" aria-label="Devenir partenaire">
+            <div class="sd-partner-2d">
+              <div class="sd-partner-placeholder">＋</div>
+              <div class="sd-partner-info">
+                <div class="sd-partner-name">Devenir partenaire</div>
+                <div class="sd-partner-role">Rejoignez-nous</div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="sd-footer-links">
+        <div class="sd-footer-col">
+          <div class="sd-footer-title">SCHOOLDAY</div>
+          <a href="#">À propos</a><a href="#">Carrières</a><a href="#">Presse</a><a href="#">Contact</a>
+        </div>
+        <div class="sd-footer-col">
+          <div class="sd-footer-title">Apprendre</div>
+          <a href="#">Cours</a><a href="#">Professeurs IA</a><a href="#">Certificats</a><a href="#">Classement</a>
+        </div>
+        <div class="sd-footer-col">
+          <div class="sd-footer-title">Aide</div>
+          <a href="#">Centre d'aide</a><a href="#">Communauté</a><a href="#">Bourses</a><a href="#">Signaler un bug</a>
+        </div>
+        <div class="sd-footer-col">
+          <div class="sd-footer-title">Légal</div>
+          <a href="#">Conditions</a><a href="#">Confidentialité</a><a href="#">Cookies</a><a href="#">RGPD</a>
+        </div>
+      </div>
+
+      <div class="sd-footer-bottom">
+        <div class="sd-footer-copy">
+          © 2026 <strong>SCHOOLDAY</strong> — L'école de chaque jour, partout dans le monde.
+        </div>
+        <div class="sd-footer-partner-tag">
+          Propulsé en partenariat avec <span class="sd-footer-partner-name">XOT2KK</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-analytics-compat.js"></script>
+
+<script>
+/* ============================================================
+   SCHOOLDAY — APPLICATION (VERSION CORRIGÉE)
+   ============================================================ */
+
+/* ---------- 1. CONFIGURATION FIREBASE ---------- */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyAF93ggRSmdld7ICevNnQ5ojmLpIz3HJGo",
+  authDomain: "universite-ia-mondial.firebaseapp.com",
+  projectId: "universite-ia-mondial",
+  storageBucket: "universite-ia-mondial.firebasestorage.app",
+  messagingSenderId: "609452352968",
+  appId: "1:609452352968:web:c3067b8e35418c8b910cfd",
+  measurementId: "G-E0ZVC52YJQ"
+};
+
+/* ✅ CORRIGÉ : détection auto de validité de la config */
+const FIREBASE_ENABLED = !!(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey.length > 20);
+
+/* ---------- 2. DATA — PROFESSEURS IA ---------- */
+const PROFESSORS = {
+  mathematics: { name: 'Prof. Sigma', emoji: '🧮', subject: 'Mathématiques',
+    greet: "Bonjour ! Je suis Prof. Sigma, ton professeur de mathématiques. Dis-moi ce que tu veux apprendre aujourd'hui : algèbre, géométrie, analyse, statistiques…" },
+  code: { name: 'Prof. Byte', emoji: '💻', subject: 'Développement',
+    greet: "Salut ! Ici Prof. Byte. Prêt à coder ? Python, JavaScript, Rust, SQL… Choisis ton langage et on démarre." },
+  satellite: { name: 'Prof. Orbit', emoji: '🛰️', subject: 'Satellite & Spatial',
+    greet: "Bonjour, Prof. Orbit à l'appareil. On va parler orbites, lanceurs, télémétrie. Par quoi veux-tu commencer ?" },
+  chinese: { name: 'Prof. Li', emoji: '🇨🇳', subject: 'Chinois Mandarin',
+    greet: "你好 ! Je suis Prof. Li. On va apprendre le mandarin pas à pas : pinyin, tons, caractères. 开始吧 !" },
+  army: { name: 'Prof. Sentinel', emoji: '🎖️', subject: 'Stratégie & Défense',
+    greet: "Bonjour. Prof. Sentinel. Nous étudierons la tactique, le leadership et la cyberdéfense — toujours dans un cadre éthique." },
+  business: { name: 'Prof. Venture', emoji: '💼', subject: 'Business & Entrepreneuriat',
+    greet: "Hello ! Prof. Venture. On va transformer ton idée en business. Parle-moi de ton projet ou demande un cours." },
+  family: { name: 'Prof. Harmony', emoji: '👨‍👩‍👧', subject: 'Famille & Développement',
+    greet: "Bienvenue. Je suis Prof. Harmony. Ici on apprend à mieux communiquer en famille, avec bienveillance." },
+  sport: { name: 'Prof. Pulse', emoji: '⚽', subject: 'Sport & Santé',
+    greet: "Hey ! Prof. Pulse. On va bouger ! Dis-moi ton objectif : endurance, force, perte de poids, mental…" },
+  design: { name: 'Prof. Pixel', emoji: '🎨', subject: 'Design UX/UI',
+    greet: "Coucou ! Prof. Pixel. On va parler design, Figma, accessibilité, expérience utilisateur. Montre-moi ton projet !" },
+};
+
+/* ---------- 3. FIREBASE WRAPPER (CORRIGÉ) ---------- */
+const Firebase = {
+  app: null, auth: null, db: null, analytics: null,
+  ready: false, mode: 'demo',
+
+  init() {
+    if (!FIREBASE_ENABLED || typeof firebase === 'undefined') {
+      this.mode = 'demo';
+      console.log('%c🎓 SCHOOLDAY — Mode DÉMO (localStorage)', 'color:#F59E0B;font-weight:bold');
+      this.updateStatusBadge();
+      return;
+    }
+    try {
+      this.app = firebase.initializeApp(FIREBASE_CONFIG);
+      this.auth = firebase.auth();
+      this.db = firebase.firestore();
+      /* ✅ CORRIGÉ : retiré db.settings() — inutile et parfois bloquant */
+      try { this.analytics = firebase.analytics(); } catch (e) { /* Analytics optionnel */ }
+      this.ready = true;
+      this.mode = 'firebase';
+      console.log('%c🔥 Firebase connecté — universite-ia-mondial', 'color:#22C55E;font-weight:bold');
+    } catch (e) {
+      console.error('❌ Firebase init failed:', e);
+      this.mode = 'demo';
+    }
+    this.updateStatusBadge();
+  },
+
+  updateStatusBadge() {
+    const badge = document.getElementById('fb-status');
+    const text = document.getElementById('fb-status-text');
+    if (!badge || !text) return;
+    if (this.mode === 'firebase') {
+      badge.className = 'fb-status fb-on';
+      text.textContent = 'Firebase ON';
+    } else {
+      badge.className = 'fb-status fb-off';
+      text.textContent = 'Mode Démo';
+    }
+  },
+
+  /* ✅ CORRIGÉ : helper FieldValue compatible compat SDK */
+  fv() {
+    return firebase.firestore.FieldValue;
+  },
+
+  generateMatricule(country) {
+    const cc = (country || 'XX').slice(0, 2).toUpperCase();
+    const year = new Date().getFullYear();
+    const rand = Math.floor(100000 + Math.random() * 900000);
+    return `SCD-${cc}-${year}-${rand}`;
+  },
+
+  async register(data) {
+    if (this.mode === 'demo') return LocalStore.register(data);
+
+    const { user } = await this.auth.createUserWithEmailAndPassword(data.email, data.password);
+    await user.updateProfile({ displayName: data.fullName });
+    const matricule = this.generateMatricule(data.country);
+
+    await this.db.collection('users').doc(user.uid).set({
+      uid: user.uid,
+      email: user.email,
+      matricule,
+      fullName: data.fullName,
+      phone: data.phone,
+      country: data.country,
+      interests: data.interests,
+      role: 'STUDENT',
+      plan: 'FREE',
+      credits: 5,
+      xp: 0,
+      level: 1,
+      locale: 'fr',
+      createdAt: this.fv().serverTimestamp(),
+      updatedAt: this.fv().serverTimestamp(),
+    });
+
+    await this.db.collection('leaderboard').doc(user.uid).set({
+      uid: user.uid,
+      fullName: data.fullName,
+      matricule,
+      country: data.country,
+      xp: 0,
+      updatedAt: this.fv().serverTimestamp(),
+    });
+
+    try { this.analytics && this.analytics.logEvent && this.analytics.logEvent('sign_up', { method: 'email', country: data.country }); } catch (e) {}
+
+    return {
+      matricule,
+      user: { uid: user.uid, email: user.email, fullName: data.fullName, country: data.country, interests: data.interests }
+    };
+  },
+
+  async signInWithGoogle() {
+    if (this.mode === 'demo') return LocalStore.signInWithGoogle();
+
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const { user } = await this.auth.signInWithPopup(provider);
+
+    const ref = this.db.collection('users').doc(user.uid);
+    const snap = await ref.get();
+
+    if (!snap.exists) {
+      const matricule = this.generateMatricule('FR');
+      await ref.set({
+        uid: user.uid,
+        email: user.email,
+        matricule,
+        fullName: user.displayName || 'Étudiant',
+        phone: user.phoneNumber || '',
+        country: 'FR',
+        interests: ['mathematics', 'code'],
+        role: 'STUDENT',
+        plan: 'FREE',
+        credits: 5,
+        xp: 0,
+        level: 1,
+        locale: 'fr',
+        photoURL: user.photoURL || '',
+        createdAt: this.fv().serverTimestamp(),
+        updatedAt: this.fv().serverTimestamp(),
+      });
+      await this.db.collection('leaderboard').doc(user.uid).set({
+        uid: user.uid,
+        fullName: user.displayName || 'Étudiant',
+        matricule,
+        country: 'FR',
+        xp: 0,
+        updatedAt: this.fv().serverTimestamp(),
+      });
+
+      return {
+        matricule,
+        user: { uid: user.uid, email: user.email, fullName: user.displayName || 'Étudiant', country: 'FR', interests: ['mathematics', 'code'] },
+        isNew: true
+      };
+    }
+
+    const data = snap.data();
+    return {
+      matricule: data.matricule,
+      user: { uid: user.uid, email: user.email, fullName: data.fullName, country: data.country, interests: data.interests },
+      isNew: false
+    };
+  },
+
+  async login(email, password) {
+    if (this.mode === 'demo') return LocalStore.login(email, password);
+
+    const { user } = await this.auth.signInWithEmailAndPassword(email, password);
+    const snap = await this.db.collection('users').doc(user.uid).get();
+    if (!snap.exists) throw new Error('Profil introuvable');
+
+    const data = snap.data();
+    try { this.analytics && this.analytics.logEvent && this.analytics.logEvent('login', { method: 'email' }); } catch (e) {}
+
+    return {
+      user: {
+        uid: user.uid,
+        email: user.email,
+        fullName: data.fullName,
+        matricule: data.matricule,
+        country: data.country,
+        interests: data.interests || [],
+        plan: data.plan || 'FREE',
+        credits: data.credits || 0,
+        xp: data.xp || 0,
+        level: data.level || 1,
+      }
+    };
+  },
+
+  async logout() {
+    if (this.mode === 'firebase' && this.auth) await this.auth.signOut();
+    else LocalStore.logout();
+  },
+
+  async getXP(uid) {
+    if (this.mode === 'demo') return LocalStore.getXP(uid);
+    try {
+      const snap = await this.db.collection('users').doc(uid).get();
+      return snap.exists ? (snap.data().xp || 0) : 0;
+    } catch (e) {
+      console.warn('getXP error:', e);
+      return 0;
+    }
+  },
+
+  /* ✅ CORRIGÉ : utilise set merge au lieu de update pour créer le doc si absent */
+  async addXP(uid, amount) {
+    if (this.mode === 'demo') return LocalStore.addXP(uid, amount);
+
+    try {
+      await this.db.collection('users').doc(uid).set({
+        xp: this.fv().increment(amount),
+        updatedAt: this.fv().serverTimestamp(),
+      }, { merge: true });
+
+      await this.db.collection('leaderboard').doc(uid).set({
+        xp: this.fv().increment(amount),
+        updatedAt: this.fv().serverTimestamp(),
+      }, { merge: true });
+    } catch (e) {
+      console.warn('addXP error:', e);
+    }
+  },
+
+  async getLeaderboard(limit = 100) {
+    if (this.mode === 'demo') return LocalStore.getLeaderboard(limit);
+
+    try {
+      const snap = await this.db.collection('leaderboard')
+        .orderBy('xp', 'desc')
+        .limit(limit)
+        .get();
+
+      return snap.docs.map((d, i) => {
+        const data = d.data();
+        return { ...data, xp: data.xp || 0, position: i + 1 };
+      });
+    } catch (e) {
+      console.warn('getLeaderboard error:', e);
+      return [];
+    }
+  },
+
+  async getUser(uid) {
+    if (this.mode === 'demo') return LocalStore.getUser(uid);
+    const snap = await this.db.collection('users').doc(uid).get();
+    return snap.exists ? snap.data() : null;
+  },
+};
+
+/* ---------- 4. LOCAL STORE (Fallback mode démo) ---------- */
+const LocalStore = {
+  KEY_USERS:   'schoolday.users',
+  KEY_SESSION: 'schoolday.session',
+  KEY_XP:      'schoolday.xp',
+  KEY_SIM:     'schoolday.sim',
+
+  getUsers() { return JSON.parse(localStorage.getItem(this.KEY_USERS) || '[]'); },
+  saveUsers(u) { localStorage.setItem(this.KEY_USERS, JSON.stringify(u)); },
+  findUser(email) { return this.getUsers().find(u => u.email.toLowerCase() === String(email).toLowerCase()); },
+  addUser(u) { const l = this.getUsers(); l.push(u); this.saveUsers(l); return u; },
+
+  setSession(u) { localStorage.setItem(this.KEY_SESSION, JSON.stringify(u)); },
+  getSession() { return JSON.parse(localStorage.getItem(this.KEY_SESSION) || 'null'); },
+  clearSession() { localStorage.removeItem(this.KEY_SESSION); },
+
+  getXP(uid) {
+    const all = JSON.parse(localStorage.getItem(this.KEY_XP) || '{}');
+    return all[uid] || 0;
+  },
+  addXP(uid, amount) {
+    const all = JSON.parse(localStorage.getItem(this.KEY_XP) || '{}');
+    all[uid] = (all[uid] || 0) + amount;
+    localStorage.setItem(this.KEY_XP, JSON.stringify(all));
+    return all[uid];
+  },
+
+  register(data) {
+    if (this.findUser(data.email)) throw new Error('Cet email est déjà utilisé');
+    const matricule = Firebase.generateMatricule(data.country);
+    const user = {
+      uid: 'local-' + Date.now(),
+      matricule,
+      fullName: data.fullName,
+      email: data.email.toLowerCase(),
+      phone: data.phone,
+      country: data.country,
+      password: data.password,
+      interests: data.interests,
+      role: 'STUDENT',
+      plan: 'FREE',
+      credits: 5,
+      xp: 0,
+      level: 1,
+    };
+    this.addUser(user);
+    this.setSession(user);
+    return { matricule, user };
+  },
+
+  signInWithGoogle() {
+    const demoUser = {
+      uid: 'google-demo-' + Date.now(),
+      matricule: Firebase.generateMatricule('FR'),
+      fullName: 'Utilisateur Google',
+      email: 'google.demo@schoolday.ai',
+      phone: '',
+      country: 'France',
+      interests: ['mathematics', 'code', 'design'],
+      role: 'STUDENT',
+      plan: 'FREE',
+      credits: 5,
+      xp: 0,
+      level: 1,
+    };
+    this.addUser(demoUser);
+    this.setSession(demoUser);
+    return { matricule: demoUser.matricule, user: demoUser, isNew: true };
+  },
+
+  login(email, password) {
+    const u = this.findUser(email);
+    if (!u || u.password !== password) throw new Error('Email ou mot de passe incorrect');
+    this.setSession(u);
+    return { user: u };
+  },
+
+  logout() { this.clearSession(); },
+
+  getUser(uid) { return this.getUsers().find(u => u.uid === uid); },
+
+  getLeaderboard(limit = 100) {
+    let sims = JSON.parse(localStorage.getItem(this.KEY_SIM) || 'null');
+    if (!sims) {
+      const countries = ['CI','SN','FR','CN','US','MA','CM','CD','BR','IN','JP','DE','GB','NG','ZA'];
+      const names = ['Aya','Mamadou','Li Wei','Sofia','John','Fatima','Chen','Diego','Amina','Yuki','Kwame','Lucie','Ahmed','Priya','Omar','Nadia','Ravi','Elena','Tunde','Mei'];
+      sims = [];
+      for (let i = 0; i < 60; i++) {
+        const cc = countries[Math.floor(Math.random() * countries.length)];
+        const nm = names[Math.floor(Math.random() * names.length)];
+        const rand = Math.floor(100000 + Math.random() * 900000);
+        sims.push({
+          uid: 'sim-' + i,
+          fullName: `${nm} ${String.fromCharCode(65 + Math.floor(Math.random() * 26))}.`,
+          matricule: `SCD-${cc}-2026-${rand}`,
+          country: cc,
+          xp: Math.floor(Math.random() * 5000),
+        });
+      }
+      localStorage.setItem(this.KEY_SIM, JSON.stringify(sims));
+    }
+
+    const reals = this.getUsers()
+      .filter(u => u.role === 'STUDENT')
+      .map(u => ({
+        uid: u.uid,
+        fullName: u.fullName,
+        matricule: u.matricule,
+        country: u.country,
+        xp: this.getXP(u.uid),
+      }));
+
+    return [...sims, ...reals]
+      .sort((a, b) => b.xp - a.xp)
+      .slice(0, limit)
+      .map((r, i) => ({ ...r, position: i + 1 }));
+  },
+};
+
+/* ---------- 5. UI HELPERS ---------- */
+const UI = {
+  toast(msg, type = 'info') {
+    const el = document.createElement('div');
+    el.className = `toast ${type}`;
+    el.textContent = msg;
+    document.getElementById('toasts').appendChild(el);
+    setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.remove(), 300); }, 3200);
+  },
+  escape(str) {
+    return String(str).replace(/[&<>"']/g, c => (
+      { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]
+    ));
+  },
+  md(str) {
+    let s = UI.escape(str);
+    s = s.replace(/```(\w+)?\n([\s\S]*?)```/g, (_, l, code) => `<pre>${code}</pre>`);
+    s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+    s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(/\n/g, '<br/>');
+    return s;
+  },
+};
+
+/* ---------- 6. ROUTER ---------- */
+const router = {
+  current: 'home',
+  go(screen, params = {}) {
+    if (['dashboard', 'exam', 'ranking', 'classroom'].includes(screen) && !auth.user) {
+      this.go('login'); return;
+    }
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById(`screen-${screen}`);
+    if (!el) return;
+    el.classList.add('active');
+    this.current = screen;
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    document.querySelectorAll('[data-nav]').forEach(b => b.classList.toggle('active', b.dataset.nav === screen));
+
+    const navAuth = document.getElementById('nav-auth');
+    if (auth.user) {
+      navAuth.textContent = auth.user.fullName.split(' ')[0];
+      navAuth.onclick = () => router.go('dashboard');
+    } else {
+      navAuth.textContent = 'Connexion';
+      navAuth.onclick = () => router.go('login');
+    }
+
+    if (screen === 'dashboard') dashboard.render();
+    if (screen === 'ranking')   ranking.render();
+    if (screen === 'exam')      exam.render();
+    if (screen === 'classroom') classroom.open(params.subject, params.courseTitle);
+  },
+};
+
+/* ---------- 7. AUTH ---------- */
+const auth = {
+  user: null,
+
+  init() {
+    if (Firebase.mode === 'firebase') {
+      /* ✅ CORRIGÉ : try/catch sur onAuthStateChanged */
+      Firebase.auth.onAuthStateChanged(async (fbUser) => {
+        try {
+          if (fbUser) {
+            const data = await Firebase.getUser(fbUser.uid);
+            if (data) {
+              this.user = { ...data, uid: fbUser.uid };
+              LocalStore.setSession(this.user);
+            }
+          } else {
+            this.user = null;
+            LocalStore.clearSession();
+          }
+        } catch (e) {
+          console.warn('onAuthStateChanged error:', e);
+        }
+      });
+    } else {
+      if (!LocalStore.findUser('admin@schoolday.ai')) {
+        LocalStore.addUser({
+          uid: 'admin-001',
+          matricule: 'SCD-AD-2026-000001',
+          fullName: 'Admin SCHOOLDAY',
+          email: 'admin@schoolday.ai',
+          phone: '+2250000000000',
+          country: "Côte d'Ivoire",
+          password: 'Admin123!',
+          interests: ['mathematics', 'code'],
+          role: 'ADMIN',
+          plan: 'MENTORAT',
+          credits: 9999,
+          xp: 0,
+          level: 1,
+        });
+      }
+      const s = LocalStore.getSession();
+      if (s) this.user = s;
+    }
+  },
+
+  async logout() {
+    await Firebase.logout();
+    this.user = null;
+    UI.toast('Déconnecté', 'info');
+    router.go('home');
+  },
+};
+
+/* ---------- 8. REGISTER ---------- */
+const register = {
+  data: {},
+  selected: new Set(),
+
+  reset() {
+    this.data = {};
+    this.selected = new Set();
+    document.getElementById('form-register-1').classList.remove('hidden');
+    document.getElementById('form-register-2').classList.add('hidden');
+    document.getElementById('form-register-3').classList.add('hidden');
+    document.getElementById('form-register-1').reset();
+    document.getElementById('step-1').classList.add('active');
+    document.getElementById('step-2').classList.remove('active');
+    this.renderSubjects();
+  },
+
+  step1(e) {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    this.data = Object.fromEntries(fd.entries());
+    if (Firebase.mode === 'demo' && LocalStore.findUser(this.data.email)) {
+      UI.toast('Cet email est déjà utilisé', 'error'); return;
+    }
+    document.getElementById('form-register-1').classList.add('hidden');
+    document.getElementById('form-register-2').classList.remove('hidden');
+    document.getElementById('step-2').classList.add('active');
+  },
+
+  back() {
+    document.getElementById('form-register-2').classList.add('hidden');
+    document.getElementById('form-register-1').classList.remove('hidden');
+    document.getElementById('step-2').classList.remove('active');
+  },
+
+  renderSubjects() {
+    const grid = document.getElementById('subjects-grid');
+    grid.innerHTML = Object.entries(PROFESSORS).map(([key, p]) => `
+      <button type="button" class="subject-chip ${this.selected.has(key) ? 'selected' : ''}" data-subject="${key}">
+        <span class="emoji">${p.emoji}</span>
+        <span class="name">${UI.escape(p.subject)}</span>
+        <span class="teacher">${UI.escape(p.name)}</span>
+      </button>
+    `).join('');
+    grid.querySelectorAll('[data-subject]').forEach(btn => {
+      btn.onclick = () => {
+        const k = btn.dataset.subject;
+        this.selected.has(k) ? this.selected.delete(k) : this.selected.add(k);
+        this.renderSubjects();
+      };
+    });
+  },
+
+  async submit(e) {
+    e.preventDefault();
+    const err = document.getElementById('subjects-error');
+    if (this.selected.size === 0) { err.classList.remove('hidden'); return; }
+    err.classList.add('hidden');
+
+    const btn = document.getElementById('reg-btn-2');
+    btn.disabled = true;
+    btn.textContent = 'Création…';
+
+    try {
+      const result = await Firebase.register({
+        ...this.data,
+        interests: Array.from(this.selected),
+      });
+
+      auth.user = result.user;
+      LocalStore.setSession(result.user);
+
+      document.getElementById('matricule-value').textContent = result.matricule;
+      document.getElementById('form-register-2').classList.add('hidden');
+      document.getElementById('form-register-3').classList.remove('hidden');
+      UI.toast('Compte créé avec succès 🎉', 'success');
+    } catch (e) {
+      console.error('Register error:', e);
+      let msg = e.message || 'Erreur lors de la création';
+      if (e.code === 'auth/email-already-in-use') msg = 'Cet email est déjà utilisé';
+      if (e.code === 'auth/weak-password') msg = 'Mot de passe trop faible (6 caractères min)';
+      if (e.code === 'auth/invalid-email') msg = 'Email invalide';
+      UI.toast(msg, 'error');
+      btn.disabled = false;
+      btn.textContent = 'Créer mon compte 🚀';
+    }
+  },
+
+  async google() {
+    try {
+      const result = await Firebase.signInWithGoogle();
+      auth.user = result.user;
+      LocalStore.setSession(result.user);
+      UI.toast(`Bienvenue ${result.user.fullName.split(' ')[0]} !`, 'success');
+      router.go('dashboard');
+    } catch (e) {
+      console.error('Google error:', e);
+      let msg = e.message || 'Erreur Google Sign-In';
+      if (e.code === 'auth/popup-closed-by-user') msg = 'Fenêtre fermée';
+      if (e.code === 'auth/operation-not-allowed') msg = 'Google non activé dans Firebase Console';
+      UI.toast(msg, 'error');
+    }
+  },
+};
+
+/* ---------- 9. LOGIN ---------- */
+const login = {
+  async submit(e) {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const btn = document.getElementById('login-btn');
+    btn.disabled = true;
+    btn.textContent = 'Connexion…';
+
+    try {
+      const result = await Firebase.login(fd.get('email'), fd.get('password'));
+      auth.user = result.user;
+      LocalStore.setSession(result.user);
+      UI.toast(`Bienvenue ${result.user.fullName.split(' ')[0]} !`, 'success');
+      router.go('dashboard');
+    } catch (e) {
+      console.error('Login error:', e);
+      let msg = e.message || 'Erreur de connexion';
+      if (e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') msg = 'Email ou mot de passe incorrect';
+      if (e.code === 'auth/user-not-found') msg = 'Utilisateur introuvable';
+      if (e.code === 'auth/too-many-requests') msg = 'Trop de tentatives, réessaie plus tard';
+      UI.toast(msg, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Se connecter';
+    }
+  },
+
+  async google() {
+    try {
+      const result = await Firebase.signInWithGoogle();
+      auth.user = result.user;
+      LocalStore.setSession(result.user);
+      UI.toast(`Bienvenue ${result.user.fullName.split(' ')[0]} !`, 'success');
+      router.go('dashboard');
+    } catch (e) {
+      console.error('Google login error:', e);
+      let msg = e.message || 'Erreur Google Sign-In';
+      if (e.code === 'auth/popup-closed-by-user') msg = 'Fenêtre fermée';
+      UI.toast(msg, 'error');
+    }
+  },
+};
+
+/* ---------- 10. DASHBOARD ---------- */
+const dashboard = {
+  async render() {
+    const u = auth.user;
+    if (!u) return;
+
+    document.getElementById('dash-hello').textContent = `Salut, ${u.fullName.split(' ')[0]} 👋`;
+    document.getElementById('dash-matricule').textContent = u.matricule || '—';
+    document.getElementById('dash-country').textContent = u.country || '—';
+
+    const xp = await Firebase.getXP(u.uid);
+    const level = Math.floor(xp / 500) + 1;
+    document.getElementById('dash-xp').textContent = xp;
+    document.getElementById('dash-level').textContent = level;
+    document.getElementById('dash-courses').textContent = (u.interests || []).length;
+
+    const board = await Firebase.getLeaderboard(100);
+    const myIdx = board.findIndex(r => r.uid === u.uid);
+    document.getElementById('dash-rank').textContent = myIdx >= 0 ? `#${myIdx + 1}` : '—';
+
+    const list = document.getElementById('dash-courses-list');
+    const interests = u.interests || [];
+    if (interests.length === 0) {
+      list.innerHTML = `<div class="card" style="text-align:center;color:var(--white-60)">
+        Aucun cours. <a href="#" onclick="router.go('register');return false" style="color:var(--cyan)">Choisir des matières →</a>
+      </div>`;
+    } else {
+      list.innerHTML = interests.map(key => {
+        const p = PROFESSORS[key]; if (!p) return '';
+        const progress = 10 + Math.floor(Math.random() * 70);
+        return `
+          <div class="course-item" data-open="${key}">
+            <div class="course-emoji">${p.emoji}</div>
+            <div class="course-info">
+              <div class="course-title">${UI.escape(p.subject)}</div>
+              <div class="course-teacher">${UI.escape(p.name)}</div>
+              <div class="course-progress"><div style="width:${progress}%"></div></div>
+            </div>
+            <div style="color:var(--cyan);font-size:20px">→</div>
+          </div>
+        `;
+      }).join('');
+      list.querySelectorAll('[data-open]').forEach(el => {
+        el.onclick = () => {
+          const key = el.dataset.open;
+          router.go('classroom', { subject: key, courseTitle: PROFESSORS[key].subject });
+        };
+      });
+    }
+
+    const lb = document.getElementById('dash-leaderboard');
+    lb.innerHTML = board.slice(0, 10).map((r, i) => `
+      <div class="leaderboard-row">
+        <div class="rank ${i===0?'top-1':i===1?'top-2':i===2?'top-3':''}">${i+1}</div>
+        <div class="lb-name">
+          ${UI.escape(r.fullName || 'Anonyme')}
+          <div class="mono" style="font-size:11px;color:var(--white-40)">${UI.escape(r.matricule || '')} • ${UI.escape(r.country || '')}</div>
+        </div>
+        <div class="lb-xp">${r.xp || 0} XP</div>
+      </div>
+    `).join('');
+  },
+};
+
+/* ---------- 11. CLASSROOM ---------- */
+const classroom = {
+  subject: null, history: [], busy: false,
+
+  open(subject, courseTitle) {
+    this.subject = subject;
+    const p = PROFESSORS[subject];
+    if (!p) return;
+    document.getElementById('cl-avatar').textContent = p.emoji;
+    document.getElementById('cl-name').textContent = p.name;
+    document.getElementById('cl-subject').textContent = courseTitle || p.subject;
+
+    if (this.history.length === 0) {
+      this.history.push({ role: 'assistant', content: p.greet });
+      this.renderMessages();
+    }
+    this.renderQuickPrompts();
+    setTimeout(() => document.getElementById('cl-input').focus(), 100);
+  },
+
+  renderQuickPrompts() {
+    const prompts = {
+      mathematics: ['Explique les dérivées', 'Théorème de Pythagore', 'Exercice sur les fractions'],
+      code: ['Boucle for en Python', "Qu'est-ce qu'une fonction ?", 'Créer un mini-calculateur'],
+      satellite: ["Qu'est-ce qu'une orbite ?", 'Loi de Kepler', 'Comment fonctionne un GPS ?'],
+      chinese: ['Les tons en mandarin', 'Dire bonjour', 'Les nombres 1-10'],
+      army: ['Stratégie défensive', 'Leadership militaire', 'Cybersécurité'],
+      business: ['Créer un business plan', 'Pitch investisseurs', 'Calculer la marge'],
+      family: ['Communication bienveillante', 'Gérer les colères', 'Rituels familiaux'],
+      sport: ['Programme débutant', 'Nutrition sportive', 'Échauffement'],
+      design: ['Principes UX', 'Design system', 'Accessibilité WCAG'],
+    };
+    const list = prompts[this.subject] || [];
+    const el = document.getElementById('cl-quick');
+    el.innerHTML = list.map(t => `<button onclick="classroom.quick(${JSON.stringify(t)})">${UI.escape(t)}</button>`).join('');
+  },
+
+  quick(text) { document.getElementById('cl-input').value = text; this.send(); },
+
+  renderMessages() {
+    const box = document.getElementById('cl-messages');
+    box.innerHTML = this.history.map(m => `
+      <div class="msg ${m.role === 'user' ? 'user' : 'ai'}">
+        <div class="bubble">${UI.md(m.content)}</div>
+      </div>
+    `).join('') + (this.busy ? `
+      <div class="msg ai">
+        <div class="bubble"><span class="typing"><span></span><span></span><span></span></span></div>
+      </div>
+    ` : '');
+    box.scrollTop = box.scrollHeight;
+  },
+
+  async send() {
+    if (this.busy) return;
+    const input = document.getElementById('cl-input');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    this.history.push({ role: 'user', content: text });
+    this.busy = true;
+    this.renderMessages();
+
+    const reply = this.generateReply(text);
+    const words = reply.split(/(\s+)/);
+    let i = 0, built = '';
+    this.history.push({ role: 'assistant', content: '' });
+    const idx = this.history.length - 1;
+
+    const timer = setInterval(async () => {
+      if (i >= words.length) {
+        clearInterval(timer);
+        this.busy = false;
+        this.renderMessages();
+        if (auth.user) {
+          await Firebase.addXP(auth.user.uid, 15);
+          UI.toast('+15 XP', 'success');
+        }
+        return;
+      }
+      built += words[i++];
+      this.history[idx].content = built;
+      this.renderMessages();
+    }, 26);
+  },
+
+  generateReply(question) {
+    const q = question.toLowerCase();
+    const p = PROFESSORS[this.subject];
+
+    const R = {
+      mathematics: {
+        derive: `**Les dérivées expliquées simplement** 🧮\n\nLa dérivée mesure la **vitesse de changement** d'une fonction.\n\nExemple : si f(x) = x², la dérivée f'(x) = 2x.\n\n**Règle de base** : f(x) = xⁿ → f'(x) = n·xⁿ⁻¹\n\n**Exercice** : dérive f(x) = 3x³ + 2x.\nRéponse : f'(x) = 9x² + 2.`,
+        pythagore: `**Théorème de Pythagore**\n\nDans un triangle rectangle :\n\n\`a² + b² = c²\`\n\n**Exemple** : a = 3, b = 4 → c = √(9+16) = 5.\n\n**Exercice** : un triangle a des côtés 6 et 8. Combien vaut l'hypoténuse ? (Réponse : 10)`,
+        fraction: `**Additionner des fractions**\n\nPour \`1/2 + 1/3\` :\n\n1. Dénominateur commun : 6\n2. \`1/2 = 3/6\` et \`1/3 = 2/6\`\n3. Additionner : \`3/6 + 2/6 = 5/6\`\n\n**Règle** : on n'additionne jamais les dénominateurs !\n\n**Exercice** : calcule \`3/4 + 1/6\`. (Réponse : 11/12)`,
+      },
+      code: {
+        for: `**La boucle for en Python** 💻\n\n\`\`\`python\nfor i in range(5):\n    print("Tour", i)\n\`\`\`\n\n**Variante sur une liste** :\n\n\`\`\`python\nfruits = ["pomme", "banane", "mangue"]\nfor f in fruits:\n    print(f)\n\`\`\`\n\n**À toi** : affiche les nombres pairs de 0 à 10.`,
+        fonction: `**Les fonctions en Python**\n\n\`\`\`python\ndef saluer(nom):\n    return f"Bonjour {nom} !"\n\nprint(saluer("Aya"))\n\`\`\`\n\n**Bonnes pratiques** :\n- Nom explicite (\`calculer_moyenne\`, pas \`f\`)\n- Une fonction = une responsabilité\n\n**Exercice** : crée \`addition(a, b)\` qui retourne la somme.`,
+        calcul: `**Mini-calculateur en Python**\n\n\`\`\`python\ndef calculer(a, b, op):\n    if op == "+": return a + b\n    if op == "-": return a - b\n    if op == "*": return a * b\n    if op == "/":\n        return a / b if b != 0 else "Erreur"\n\nprint(calculer(10, 5, "+"))  # 15\n\`\`\``,
+      },
+      satellite: {
+        orbite: `**Qu'est-ce qu'une orbite ?** 🛰️\n\nUne orbite est la trajectoire d'un objet autour d'un corps céleste, maintenue par la **gravité**.\n\n**Formule** : \`T = 2π√(a³/μ)\`\n\n**Types** :\n- LEO (200-2000 km) : ISS, Starlink\n- MEO (2000-35000 km) : GPS\n- GEO (35786 km) : satellites TV`,
+        kepler: `**Les 3 lois de Kepler**\n\n1. **Orbite elliptique** : le Soleil est à un foyer\n2. **Loi des aires** : aires égales en temps égaux\n3. **Loi des périodes** : \`T² ∝ a³\``,
+        gps: `**Comment fonctionne le GPS**\n\n1. **24+ satellites** en orbite MEO\n2. Chaque satellite émet sa position + l'heure\n3. Ton récepteur calcule le **délai** du signal\n4. **Trilatération** : 4 satellites minimum`,
+      },
+      chinese: {
+        ton: `**Les 4 tons du mandarin** 🇨🇳\n\n- **mā** (1er) : 妈 = maman\n- **má** (2e) : 麻 = chanvre\n- **mǎ** (3e) : 马 = cheval\n- **mà** (4e) : 骂 = gronder\n\n**Exercice** : 妈妈骂马 (māma mà mǎ)`,
+        bonjour: `**Dire bonjour en mandarin**\n\n- 你好 (nǐ hǎo) → Bonjour (informel)\n- 您好 (nín hǎo) → Bonjour (poli)\n- 早上好 (zǎoshang hǎo) → Bonjour (matin)\n- 晚上好 (wǎnshang hǎo) → Bonsoir`,
+        nombre: `**Nombres 1 à 10**\n\n一 (yī) 1, 二 (èr) 2, 三 (sān) 3, 四 (sì) 4, 五 (wǔ) 5\n六 (liù) 6, 七 (qī) 7, 八 (bā) 8, 九 (jiǔ) 9, 十 (shí) 10\n\n**Astuce** : 十一 = 11, 二十 = 20`,
+      },
+      army: {
+        defense: `**Stratégie défensive** 🎖️\n\n1. **Terrain** : exploiter le relief\n2. **Profondeur** : défense en couches\n3. **Mobilité** : réserves prêtes\n4. **Renseignement** : savoir avant d'agir\n\n**Éthique** : la défense protège les populations.`,
+        leadership: `**Leadership militaire**\n\n- **Exemplarité** : le chef fait ce qu'il demande\n- **Clarté** : ordres simples\n- **Confiance** : déléguer\n- **Calme** : sous pression, inspirer`,
+        cyber: `**Cybersécurité défensive**\n\n1. **MFA** partout\n2. **Moindre privilège**\n3. **Mises à jour** régulières\n4. **Sauvegardes** 3-2-1\n5. **Sensibilisation** : 90 % des fuites = humain`,
+      },
+      business: {
+        plan: `**Créer un business plan** 💼\n\n1. **Problème**\n2. **Solution**\n3. **Marché**\n4. **Business model**\n5. **Traction**\n6. **Équipe**\n7. **Prévisions**\n\n**Astuce** : 1 page pour commencer (lean canvas).`,
+        pitch: `**Pitch investisseurs (5 min)**\n\n- **30 s** : problème\n- **1 min** : solution + démo\n- **1 min** : marché\n- **1 min** : traction\n- **1 min** : demande + équipe\n\n**Règle** : demande claire à la fin.`,
+        marge: `**Calculer une marge**\n\n- **Marge brute** = (PV − Coût direct) / PV × 100\n- **Marge nette** = Bénéfice net / CA × 100\n\n**Exemple** : vente 100 €, coût 40 € → marge brute 60 %.`,
+      },
+      family: {
+        comm: `**Communication bienveillante** 👨‍👩‍👧\n\nMéthode OSBD :\n\n1. **Observation** : « Quand tu rentres après 22h… »\n2. **Sentiment** : « …je me sens inquiet… »\n3. **Besoin** : « …car j'ai besoin de sécurité… »\n4. **Demande** : « …peux-tu m'envoyer un message ? »`,
+        colere: `**Gérer les colères (enfants)**\n\n1. **Accueillir** l'émotion\n2. **Nommer** : « Tu es frustré parce que… »\n3. **Rassurer** : présence calme\n4. **Attendre** : 5-20 min\n5. **Parler** une fois calme`,
+        rituel: `**Rituels familiaux**\n\n- **Matin** : 1 gratitude chacun\n- **Soir** : 3 questions\n- **Hebdo** : conseil de famille (10 min)\n- **Mensuel** : sortie à tour de rôle`,
+      },
+      sport: {
+        programme: `**Programme débutant (4 semaines)** ⚽\n\n**Sem. 1-2** :\n- 3×/sem : 20 min marche + étirements\n- 2×/sem : 3×10 squats + 5 pompes\n\n**Sem. 3-4** :\n- 3×/sem : 30 min footing\n- 3×/sem : 3×15 squats, 3×8 pompes, gainage 3×30 s`,
+        nutrition: `**Nutrition sportive**\n\n- **Protéines** : 1,2 à 1,8 g/kg/jour\n- **Glucides** : énergie (riz, patate douce)\n- **Lipides** : bons gras (huile olive, avocat)\n- **Eau** : 2 à 3 L/jour`,
+        echauffement: `**Échauffement en 7 min**\n\n1. Marche rapide — 60 s\n2. Rotations épaules — 30 s\n3. Rotations hanches — 30 s\n4. Montées de genoux — 60 s\n5. Talons-fesses — 60 s\n6. Fentes avant — 60 s\n7. Étirements dynamiques — 60 s`,
+      },
+      design: {
+        ux: `**Principes UX fondamentaux** 🎨\n\n1. **Utilité**\n2. **Usabilité**\n3. **Désirabilité**\n4. **Accessibilité**\n5. **Créativité**\n\n**Loi de Hick** : plus il y a de choix, plus la décision est lente.`,
+        design_system: `**Créer un design system**\n\n1. **Tokens** : couleurs, typo, espacements\n2. **Composants** : boutons, inputs, cards\n3. **Patterns** : navigation, formulaires\n4. **Documentation**\n\n**Outil** : Figma + variables.`,
+        a11y: `**Accessibilité WCAG**\n\n- **Contraste** : ≥ 4,5:1\n- **Taille police** : ≥ 16 px\n- **Alt texte** sur les images\n- **Navigation clavier**\n- **Focus visible**`,
+      },
+    };
+
+    const banks = R[this.subject] || {};
+    for (const key of Object.keys(banks)) {
+      if (q.includes(key.slice(0, 5)) || key.split('_').some(k => q.includes(k))) {
+        return banks[key];
+      }
+    }
+
+    return `Merci pour ta question ! Je suis ${p.name}, ton professeur de ${p.subject}.\n\nVoici comment je te propose d'avancer :\n\n1. Reformule ce que tu sais déjà sur « ${question} »\n2. Je te donnerai une explication claire\n3. On fera un exercice ensemble\n4. Je te corrigerai avec un feedback personnalisé\n\n**Essaie une des suggestions ci-dessous** ou pose ta question plus précisément. Tu gagnes **+15 XP** à chaque échange ! 🎓`;
+  },
+};
+
+/* ---------- 12. RANKING ---------- */
+const ranking = {
+  async render() {
+    const board = await Firebase.getLeaderboard(100);
+    const el = document.getElementById('ranking-full');
+    if (board.length === 0) {
+      el.innerHTML = `<p style="text-align:center;color:var(--white-60);padding:20px">Aucun étudiant pour le moment. Sois le premier ! 🚀</p>`;
+      return;
+    }
+    el.innerHTML = board.map((r, i) => `
+      <div class="leaderboard-row">
+        <div class="rank ${i===0?'top-1':i===1?'top-2':i===2?'top-3':''}">${i+1}</div>
+        <div class="lb-name">
+          ${UI.escape(r.fullName || 'Anonyme')}
+          <div class="mono" style="font-size:11px;color:var(--white-40)">${UI.escape(r.matricule || '')} • ${UI.escape(r.country || '')}</div>
+        </div>
+        <div class="lb-xp">${r.xp || 0} XP</div>
+      </div>
+    `).join('');
+  },
+};
+
+/* ---------- 13. EXAM ---------- */
+const exam = {
+  selected: {},
+  data: [
+    { q: 'Quelle est la dérivée de f(x) = x³ ?',
+      options: ['3x²', 'x²', '3x', 'x⁴/4'], answer: 0,
+      explain: "Règle : f(x) = xⁿ → f'(x) = n·xⁿ⁻¹ donc f'(x) = 3x²." },
+    { q: "Combien vaut l'hypoténuse d'un triangle rectangle de côtés 6 et 8 ?",
+      options: ['10', '12', '14', '100'], answer: 0,
+      explain: 'a² + b² = c² → 36 + 64 = 100 → c = √100 = 10.' },
+    { q: 'Que vaut 1/2 + 1/3 ?',
+      options: ['5/6', '2/5', '1/5', '2/6'], answer: 0,
+      explain: 'Dénominateur commun 6 : 3/6 + 2/6 = 5/6.' },
+  ],
+
+  render() {
+    const el = document.getElementById('exam-body');
+    el.innerHTML = this.data.map((d, i) => `
+      <div class="exam-q">
+        <div class="question">${i + 1}. ${UI.escape(d.q)}</div>
+        <div class="options">
+          ${d.options.map((opt, j) => `
+            <button class="option" data-q="${i}" data-o="${j}">${String.fromCharCode(65 + j)}. ${UI.escape(opt)}</button>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+    el.querySelectorAll('.option').forEach(btn => {
+      btn.onclick = () => {
+        const q = Number(btn.dataset.q);
+        this.selected[q] = Number(btn.dataset.o);
+        el.querySelectorAll(`[data-q="${q}"]`).forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      };
+    });
+    document.getElementById('exam-result').innerHTML = '';
+    this.selected = {};
+  },
+
+  reset() { this.render(); UI.toast('Examen réinitialisé', 'info'); },
+
+  async submit() {
+    const total = this.data.length;
+    const answered = Object.keys(this.selected).length;
+    if (answered < total) { UI.toast(`Réponds aux ${total} questions (${answered}/${total})`, 'error'); return; }
+
+    let score = 0;
+    const details = this.data.map((d, i) => {
+      const ok = this.selected[i] === d.answer;
+      if (ok) score++;
+      return `<li style="margin-bottom:10px"><strong>${i + 1}. ${ok ? '✅' : '❌'}</strong> ${UI.escape(d.explain)}</li>`;
+    }).join('');
+
+    const final = Math.round((score / total) * 20);
+    const xpGain = score * 100;
+
+    if (auth.user) await Firebase.addXP(auth.user.uid, xpGain);
+
+    document.getElementById('exam-result').innerHTML = `
+      <div class="card" style="border-color:var(--gold)">
+        <div style="text-align:center">
+          <div style="font-size:56px">${score === total ? '🏆' : score >= total / 2 ? '👍' : '📚'}</div>
+          <div style="font-size:32px;font-weight:700;color:var(--gold);margin-top:8px">${final}/20</div>
+          <div style="font-size:13px;color:var(--white-60)">${score}/${total} bonnes réponses • +${xpGain} XP</div>
+        </div>
+        <ul style="margin-top:20px;list-style:none;padding:0">${details}</ul>
+      </div>
+    `;
+    UI.toast(`Examen corrigé : ${final}/20 (+${xpGain} XP)`, 'success');
+  },
+};
+
+/* ---------- 14. INIT ---------- */
+function renderHomeProfs() {
+  const grid = document.getElementById('home-profs');
+  grid.innerHTML = Object.entries(PROFESSORS).map(([key, p]) => `
+    <button class="prof" onclick="router.go('register')">
+      <div class="prof-emoji">${p.emoji}</div>
+      <div class="prof-name">${UI.escape(p.name)}</div>
+      <div class="prof-subj">${UI.escape(p.subject)}</div>
+    </button>
+  `).join('');
+}
+
+function init() {
+  Firebase.init();
+  auth.init();
+  register.reset();
+  renderHomeProfs();
+  router.go(auth.user ? 'dashboard' : 'home');
+
+  console.log('%c🎓 SCHOOLDAY', 'font-size:22px;font-weight:bold;color:#FFC93C');
+  console.log(`%cMode : ${Firebase.mode.toUpperCase()}`, 'color:#00D4FF;font-weight:bold');
+  if (Firebase.mode === 'firebase') {
+    console.log('%cProjet : universite-ia-mondial', 'color:#7C3AED');
+    console.log('%c✅ Firebase opérationnel', 'color:#22C55E;font-weight:bold');
+  } else {
+    console.log('%c⚠️ Mode démo (localStorage)', 'color:#F59E0B');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
