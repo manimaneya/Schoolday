@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 <meta name="theme-color" content="#0B1E3F" />
 <meta name="description" content="SCHOOLDAY — L'université IA mondiale. 9 professeurs intelligents, 200+ cours, classement planétaire." />
 <title>SCHOOLDAY — L'université IA mondiale</title>
@@ -250,7 +250,7 @@ input, select, textarea { font-family: inherit; }
   .nav-links .nav-link { padding: 8px 10px; font-size: 13px; }
   .nav-links .nav-link[data-nav="ranking"],
   .nav-links .nav-link[data-nav="exam"] { display: none; }
-  .fb-status { display: inline-flex; font-size: 10px; padding: 3px 8px; } /* ✅ CORRIGÉ : visible en mobile */
+  .fb-status { display: inline-flex; font-size: 10px; padding: 3px 8px; }
   .auth-card { padding: 28px 20px; }
   .hero { padding: 50px 0 30px; }
   .messages { padding: 16px; }
@@ -624,7 +624,7 @@ input, select, textarea { font-family: inherit; }
 
 <script>
 /* ============================================================
-   SCHOOLDAY — APPLICATION (VERSION CORRIGÉE)
+   SCHOOLDAY — APPLICATION (VERSION CORRIGÉE FINALE)
    ============================================================ */
 
 /* ---------- 1. CONFIGURATION FIREBASE ---------- */
@@ -638,7 +638,6 @@ const FIREBASE_CONFIG = {
   measurementId: "G-E0ZVC52YJQ"
 };
 
-/* ✅ CORRIGÉ : détection auto de validité de la config */
 const FIREBASE_ENABLED = !!(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey.length > 20);
 
 /* ---------- 2. DATA — PROFESSEURS IA ---------- */
@@ -663,7 +662,7 @@ const PROFESSORS = {
     greet: "Coucou ! Prof. Pixel. On va parler design, Figma, accessibilité, expérience utilisateur. Montre-moi ton projet !" },
 };
 
-/* ---------- 3. FIREBASE WRAPPER (CORRIGÉ) ---------- */
+/* ---------- 3. FIREBASE WRAPPER ---------- */
 const Firebase = {
   app: null, auth: null, db: null, analytics: null,
   ready: false, mode: 'demo',
@@ -679,8 +678,7 @@ const Firebase = {
       this.app = firebase.initializeApp(FIREBASE_CONFIG);
       this.auth = firebase.auth();
       this.db = firebase.firestore();
-      /* ✅ CORRIGÉ : retiré db.settings() — inutile et parfois bloquant */
-      try { this.analytics = firebase.analytics(); } catch (e) { /* Analytics optionnel */ }
+      try { this.analytics = firebase.analytics(); } catch (e) {}
       this.ready = true;
       this.mode = 'firebase';
       console.log('%c🔥 Firebase connecté — universite-ia-mondial', 'color:#22C55E;font-weight:bold');
@@ -704,7 +702,6 @@ const Firebase = {
     }
   },
 
-  /* ✅ CORRIGÉ : helper FieldValue compatible compat SDK */
   fv() {
     return firebase.firestore.FieldValue;
   },
@@ -754,7 +751,18 @@ const Firebase = {
 
     return {
       matricule,
-      user: { uid: user.uid, email: user.email, fullName: data.fullName, country: data.country, interests: data.interests }
+      user: {
+        uid: user.uid,
+        email: user.email,
+        fullName: data.fullName,
+        matricule: matricule,
+        country: data.country,
+        interests: data.interests,
+        plan: 'FREE',
+        credits: 5,
+        xp: 0,
+        level: 1,
+      }
     };
   },
 
@@ -798,7 +806,18 @@ const Firebase = {
 
       return {
         matricule,
-        user: { uid: user.uid, email: user.email, fullName: user.displayName || 'Étudiant', country: 'FR', interests: ['mathematics', 'code'] },
+        user: {
+          uid: user.uid,
+          email: user.email,
+          fullName: user.displayName || 'Étudiant',
+          matricule: matricule,
+          country: 'FR',
+          interests: ['mathematics', 'code'],
+          plan: 'FREE',
+          credits: 5,
+          xp: 0,
+          level: 1,
+        },
         isNew: true
       };
     }
@@ -806,7 +825,18 @@ const Firebase = {
     const data = snap.data();
     return {
       matricule: data.matricule,
-      user: { uid: user.uid, email: user.email, fullName: data.fullName, country: data.country, interests: data.interests },
+      user: {
+        uid: user.uid,
+        email: user.email,
+        fullName: data.fullName,
+        matricule: data.matricule,
+        country: data.country,
+        interests: data.interests,
+        plan: data.plan || 'FREE',
+        credits: data.credits || 0,
+        xp: data.xp || 0,
+        level: data.level || 1,
+      },
       isNew: false
     };
   },
@@ -853,7 +883,6 @@ const Firebase = {
     }
   },
 
-  /* ✅ CORRIGÉ : utilise set merge au lieu de update pour créer le doc si absent */
   async addXP(uid, amount) {
     if (this.mode === 'demo') return LocalStore.addXP(uid, amount);
 
@@ -1078,7 +1107,6 @@ const auth = {
 
   init() {
     if (Firebase.mode === 'firebase') {
-      /* ✅ CORRIGÉ : try/catch sur onAuthStateChanged */
       Firebase.auth.onAuthStateChanged(async (fbUser) => {
         try {
           if (fbUser) {
@@ -1086,6 +1114,7 @@ const auth = {
             if (data) {
               this.user = { ...data, uid: fbUser.uid };
               LocalStore.setSession(this.user);
+              if (router.current === 'dashboard') dashboard.render();
             }
           } else {
             this.user = null;
@@ -1275,11 +1304,25 @@ const login = {
   },
 };
 
-/* ---------- 10. DASHBOARD ---------- */
+/* ---------- 10. DASHBOARD (✅ CORRIGÉ : relit Firestore) ---------- */
 const dashboard = {
   async render() {
-    const u = auth.user;
+    let u = auth.user;
     if (!u) return;
+
+    /* ✅ CORRECTION : relire les données depuis Firestore à chaque affichage */
+    if (Firebase.mode === 'firebase' && u.uid) {
+      try {
+        const fresh = await Firebase.getUser(u.uid);
+        if (fresh) {
+          u = { ...fresh, uid: u.uid };
+          auth.user = u;
+          LocalStore.setSession(u);
+        }
+      } catch (e) {
+        console.warn('Refresh user error:', e);
+      }
+    }
 
     document.getElementById('dash-hello').textContent = `Salut, ${u.fullName.split(' ')[0]} 👋`;
     document.getElementById('dash-matricule').textContent = u.matricule || '—';
