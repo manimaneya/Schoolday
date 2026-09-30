@@ -45,15 +45,44 @@ input, select, textarea { font-family: inherit; }
 .mono { font-family: 'JetBrains Mono', monospace; }
 .hidden { display: none !important; }
 
+/* ============================================================
+   ARRIÈRE-PLAN ANIMÉ
+   ============================================================ */
+.hero-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.hero-bg-photo {
+  position: absolute; inset: 0;
+  background-image: url('https://i.imgur.com/REMPLACE_PAR_TA_PHOTO.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.18;
+  filter: blur(3px) brightness(0.6);
+  animation: slowZoom 30s ease-in-out infinite alternate;
+}
+@keyframes slowZoom {
+  0%   { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.1) translate(-2%, -2%); }
+}
+.hero-bg-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(11,30,63,0.75) 0%, rgba(11,30,63,0.55) 40%, rgba(11,30,63,0.85) 100%);
+}
 .orbs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.32; }
-.orb-1 { width: 520px; height: 520px; background: var(--cyan);   top: -120px; left: -120px; }
-.orb-2 { width: 400px; height: 400px; background: var(--gold);   bottom: -150px; right: -100px; opacity: 0.20; }
-.orb-3 { width: 380px; height: 380px; background: var(--purple); top: 40%; left: 50%; opacity: 0.15; }
+.orb-1 { width: 520px; height: 520px; background: var(--cyan);   top: -120px; left: -120px; animation: float1 18s ease-in-out infinite; }
+.orb-2 { width: 400px; height: 400px; background: var(--gold);   bottom: -150px; right: -100px; opacity: 0.20; animation: float2 22s ease-in-out infinite; }
+.orb-3 { width: 380px; height: 380px; background: var(--purple); top: 40%; left: 50%; opacity: 0.15; animation: float3 26s ease-in-out infinite; }
+@keyframes float1 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(40px, 30px); } }
+@keyframes float2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-50px, -30px); } }
+@keyframes float3 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-30px, 40px); } }
 
 .app { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; }
 .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
+/* ============================================================
+   NAVBAR
+   ============================================================ */
 .nav {
   position: sticky; top: 0; z-index: 100;
   backdrop-filter: blur(20px) saturate(150%);
@@ -62,9 +91,67 @@ input, select, textarea { font-family: inherit; }
   border-bottom: 1px solid var(--white-10);
 }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; max-width: 1200px; margin: 0 auto; gap: 16px; }
-.logo { display: flex; align-items: center; gap: 10px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; color: var(--white); cursor: pointer; background: none; border: none; padding: 0; }
-.logo-icon { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, var(--gold), #FF9A3C); display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 6px 20px rgba(255,201,60,0.35); flex-shrink: 0; }
+
+/* ============================================================
+   LOGO 3D STYLO (ANIMÉ)
+   ============================================================ */
+.logo {
+  display: flex; align-items: center; gap: 12px;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px;
+  color: var(--white); cursor: pointer; background: none; border: none; padding: 0;
+  perspective: 800px;
+}
+.logo-3d {
+  width: 48px; height: 48px;
+  position: relative;
+  flex-shrink: 0;
+  transform-style: preserve-3d;
+  animation: logoRotate 6s ease-in-out infinite;
+}
+@keyframes logoRotate {
+  0%, 100% { transform: rotateY(-15deg) rotateX(5deg); }
+  50%      { transform: rotateY(15deg) rotateX(-5deg); }
+}
+.logo-pen {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--gold) 0%, #FF9A3C 50%, var(--gold-2) 100%);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow:
+    0 6px 20px rgba(255,201,60,0.35),
+    inset 0 -3px 8px rgba(0,0,0,0.15),
+    inset 0 3px 8px rgba(255,255,255,0.4);
+  transform: translateZ(0);
+}
+.logo-pen::before {
+  content: '';
+  position: absolute;
+  top: -3px; left: -3px; right: -3px; bottom: -3px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--gold), var(--cyan), var(--purple));
+  z-index: -1;
+  opacity: 0.5;
+  filter: blur(8px);
+  animation: glowPulse 3s ease-in-out infinite;
+}
+@keyframes glowPulse {
+  0%,100% { opacity: 0.4; }
+  50%     { opacity: 0.8; }
+}
+.logo-pen svg {
+  width: 28px; height: 28px;
+  filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3));
+}
+.logo-pen::after {
+  content: '';
+  position: absolute;
+  top: 4px; left: 8px; right: 8px; height: 40%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.5), transparent);
+  border-radius: 8px 8px 50% 50%;
+  pointer-events: none;
+}
 .logo-text span { color: var(--gold); }
+
 .nav-links { display: flex; gap: 4px; align-items: center; }
 .nav-link { padding: 8px 14px; border-radius: 8px; color: var(--white-60); text-decoration: none; font-size: 14px; font-weight: 500; background: none; border: none; cursor: pointer; transition: var(--transition); white-space: nowrap; }
 .nav-link:hover { color: var(--white); background: var(--white-05); }
@@ -75,6 +162,7 @@ input, select, textarea { font-family: inherit; }
 .fb-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
+/* Boutons */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; border: none; cursor: pointer; text-decoration: none; transition: var(--transition); white-space: nowrap; }
 .btn-primary { background: var(--gold); color: var(--night); box-shadow: var(--shadow-gold); }
 .btn-primary:hover { background: var(--gold-2); transform: translateY(-1px); }
@@ -172,6 +260,89 @@ input, select, textarea { font-family: inherit; }
 .course-progress { width: 100%; height: 4px; background: var(--white-10); border-radius: 100px; margin-top: 6px; overflow: hidden; }
 .course-progress > div { height: 100%; background: linear-gradient(90deg, var(--gold), #FF9A3C); transition: width 0.6s ease; }
 
+/* ============================================================
+   PROFIL — AVATAR + PERSONNALISATION
+   ============================================================ */
+.profile-avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  border: 3px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; font-weight: 700; color: var(--night);
+  background: linear-gradient(135deg, var(--gold), #FF9A3C);
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 8px 24px rgba(255,201,60,0.35);
+}
+.profile-avatar img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.profile-avatar-lg {
+  width: 140px; height: 140px; font-size: 56px;
+  border-width: 4px;
+}
+.upload-btn {
+  display: inline-block; padding: 10px 20px;
+  background: var(--gold); color: var(--night);
+  border-radius: var(--radius-sm); font-weight: 600; font-size: 13px;
+  cursor: pointer; transition: var(--transition); border: none;
+}
+.upload-btn:hover { background: var(--gold-2); transform: translateY(-1px); }
+
+.profile-header {
+  display: flex; align-items: center; gap: 24px;
+  padding: 32px; border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(255,201,60,0.08), rgba(0,212,255,0.05));
+  border: 1px solid var(--white-10);
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.profile-header-info { flex: 1; min-width: 240px; }
+.profile-header-info h2 { font-size: 26px; margin-bottom: 4px; }
+.profile-header-info p { color: var(--white-60); font-size: 14px; }
+.profile-header-info .matricule-tag {
+  display: inline-block;
+  padding: 4px 12px; border-radius: 100px;
+  background: rgba(255,201,60,0.15); color: var(--gold);
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;
+  margin-top: 8px;
+}
+
+.profile-tabs {
+  display: flex; gap: 4px; margin-bottom: 24px;
+  border-bottom: 1px solid var(--white-10); overflow-x: auto;
+}
+.profile-tab {
+  padding: 12px 20px; background: none; border: none;
+  color: var(--white-60); font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: var(--transition);
+  border-bottom: 2px solid transparent; white-space: nowrap;
+  font-family: inherit;
+}
+.profile-tab:hover { color: var(--white); }
+.profile-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+.profile-panel { display: none; animation: fadeUp 0.3s ease; }
+.profile-panel.active { display: block; }
+
+.avatar-preview {
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  padding: 24px;
+  background: var(--white-05); border-radius: var(--radius);
+  border: 1px solid var(--white-10);
+}
+
+.color-picker {
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+.color-swatch {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 3px solid transparent; cursor: pointer;
+  transition: var(--transition);
+}
+.color-swatch:hover { transform: scale(1.1); }
+.color-swatch.active { border-color: var(--white); box-shadow: 0 0 0 3px var(--gold); }
+
+/* Classroom */
 .classroom { display: flex; flex-direction: column; height: calc(100vh - 73px); }
 .classroom-header { padding: 16px 24px; border-bottom: 1px solid var(--white-10); display: flex; align-items: center; gap: 14px; }
 .classroom-header .avatar { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--cyan), var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
@@ -221,29 +392,22 @@ input, select, textarea { font-family: inherit; }
 .sd-partners-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; max-width: 800px; margin: 0 auto; }
 .sd-partner { display: flex; align-items: center; gap: 14px; padding: 16px 20px; background: var(--white-05); border: 1px solid var(--white-10); border-radius: var(--radius); text-decoration: none; color: var(--white); transition: var(--transition); position: relative; overflow: hidden; }
 .sd-partner:hover { border-color: var(--cyan); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,212,255,0.15); }
-.sd-partner::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,201,60,0.08), transparent); transition: left 0.6s; }
-.sd-partner:hover::before { left: 100%; }
 .sd-partner-2d { display: flex; align-items: center; gap: 14px; width: 100%; }
-.sd-partner-logo { width: 52px; height: 52px; flex-shrink: 0; filter: drop-shadow(0 4px 12px rgba(255,201,60,0.25)); transition: var(--transition); }
-.sd-partner:hover .sd-partner-logo { transform: rotate(-4deg) scale(1.05); filter: drop-shadow(0 6px 18px rgba(0,212,255,0.4)); }
+.sd-partner-logo { width: 52px; height: 52px; flex-shrink: 0; }
 .sd-partner-info { display: flex; flex-direction: column; min-width: 0; }
 .sd-partner-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.05em; background: linear-gradient(135deg, #FFC93C, #00D4FF, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.sd-partner-role { font-size: 12px; color: var(--white-60); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sd-partner-role { font-size: 12px; color: var(--white-60); margin-top: 2px; }
 .sd-partner-xot2kk { border-color: rgba(255,201,60,0.3); background: linear-gradient(135deg, rgba(255,201,60,0.06), rgba(0,212,255,0.04)); }
-.sd-partner-xot2kk:hover { border-color: var(--gold); box-shadow: 0 10px 30px rgba(255,201,60,0.25); }
 .sd-partner-empty { border-style: dashed; opacity: 0.6; }
-.sd-partner-empty:hover { opacity: 1; border-color: var(--gold); }
 .sd-partner-placeholder { width: 52px; height: 52px; border-radius: 50%; background: var(--white-05); border: 1px dashed var(--white-40); display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--white-40); flex-shrink: 0; }
-.sd-partner-empty .sd-partner-name { background: none; -webkit-text-fill-color: var(--white-60); color: var(--white-60); font-weight: 500; }
 .sd-footer-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 32px; margin-bottom: 40px; }
 .sd-footer-col { display: flex; flex-direction: column; gap: 10px; }
 .sd-footer-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
 .sd-footer-col a { color: var(--white-60); text-decoration: none; font-size: 13px; transition: var(--transition); }
-.sd-footer-col a:hover { color: var(--cyan); transform: translateX(3px); }
+.sd-footer-col a:hover { color: var(--cyan); }
 .sd-footer-bottom { padding-top: 24px; border-top: 1px solid var(--white-10); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
 .sd-footer-copy { font-size: 13px; color: var(--white-40); }
 .sd-footer-copy strong { color: var(--gold); }
-.sd-footer-partner-tag { font-size: 12px; color: var(--white-40); display: flex; align-items: center; gap: 8px; }
 .sd-footer-partner-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: 0.08em; background: linear-gradient(135deg, #FFC93C, #00D4FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 13px; }
 
 @media (max-width: 768px) {
@@ -257,13 +421,22 @@ input, select, textarea { font-family: inherit; }
   .msg .bubble { max-width: 88%; }
   .sd-footer { padding: 40px 16px 24px; }
   .sd-footer-bottom { flex-direction: column; text-align: center; }
-  .sd-partner-name { font-size: 14px; }
-  .sd-partner-logo, .sd-partner-placeholder { width: 44px; height: 44px; }
+  .profile-header { padding: 20px; }
+  .profile-avatar-lg { width: 100px; height: 100px; font-size: 40px; }
 }
 </style>
 </head>
 
 <body>
+
+<!-- ============================================================
+     ARRIÈRE-PLAN ANIMÉ
+     ⚠️ Remplace l'URL ci-dessous par ta photo (Imgur, Cloudinary...)
+     ============================================================ -->
+<div class="hero-bg" aria-hidden="true">
+  <div class="hero-bg-photo"></div>
+  <div class="hero-bg-overlay"></div>
+</div>
 
 <div class="orbs" aria-hidden="true">
   <div class="orb orb-1"></div>
@@ -278,7 +451,17 @@ input, select, textarea { font-family: inherit; }
   <nav class="nav" role="navigation" aria-label="Navigation principale">
     <div class="nav-inner">
       <button class="logo" onclick="router.go('home')" aria-label="Accueil">
-        <div class="logo-icon">🎓</div>
+        <!-- ✅ LOGO 3D STYLO ANIMÉ -->
+        <div class="logo-3d">
+          <div class="logo-pen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0B1E3F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+              <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+              <path d="M2 2l7.586 7.586"/>
+              <circle cx="11" cy="11" r="2"/>
+            </svg>
+          </div>
+        </div>
         <div class="logo-text">SCHOOL<span>DAY</span></div>
       </button>
       <div class="nav-links">
@@ -288,6 +471,7 @@ input, select, textarea { font-family: inherit; }
         </span>
         <button class="nav-link" data-nav="home"      onclick="router.go('home')">Accueil</button>
         <button class="nav-link" data-nav="dashboard" onclick="router.go('dashboard')">Dashboard</button>
+        <button class="nav-link" data-nav="profile"   onclick="router.go('profile')">Profil</button>
         <button class="nav-link" data-nav="ranking"   onclick="router.go('ranking')">Classement</button>
         <button class="nav-link" data-nav="exam"      onclick="router.go('exam')">Examen</button>
         <button class="nav-link" id="nav-auth"        onclick="router.go('login')">Connexion</button>
@@ -295,6 +479,7 @@ input, select, textarea { font-family: inherit; }
     </div>
   </nav>
 
+  <!-- ============================== HOME ============================== -->
   <section class="screen active" id="screen-home">
     <div class="container">
       <div class="hero">
@@ -321,6 +506,7 @@ input, select, textarea { font-family: inherit; }
     </div>
   </section>
 
+  <!-- ============================== REGISTER ============================== -->
   <section class="screen" id="screen-register">
     <div class="auth-wrap">
       <div class="auth-card">
@@ -406,6 +592,7 @@ input, select, textarea { font-family: inherit; }
     </div>
   </section>
 
+  <!-- ============================== LOGIN ============================== -->
   <section class="screen" id="screen-login">
     <div class="auth-wrap">
       <div class="auth-card" style="max-width:440px">
@@ -437,17 +624,22 @@ input, select, textarea { font-family: inherit; }
     </div>
   </section>
 
+  <!-- ============================== DASHBOARD ============================== -->
   <section class="screen" id="screen-dashboard">
     <div class="container dash">
       <div class="dash-header">
-        <div>
-          <h1 id="dash-hello">Salut 👋</h1>
-          <div class="meta">
-            Matricule : <span class="mono" style="color:var(--gold)" id="dash-matricule">—</span>
-            • <span id="dash-country">—</span>
+        <div style="display:flex;align-items:center;gap:16px">
+          <div class="profile-avatar" id="dash-avatar">A</div>
+          <div>
+            <h1 id="dash-hello">Salut 👋</h1>
+            <div class="meta">
+              Matricule : <span class="mono" style="color:var(--gold)" id="dash-matricule">—</span>
+              • <span id="dash-country">—</span>
+            </div>
           </div>
         </div>
-        <div style="display:flex;gap:8px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" onclick="router.go('profile')">👤 Mon profil</button>
           <button class="btn btn-ghost btn-sm" onclick="router.go('exam')">📝 Examen</button>
           <button class="btn btn-danger btn-sm" onclick="auth.logout()">Déconnexion</button>
         </div>
@@ -489,6 +681,127 @@ input, select, textarea { font-family: inherit; }
     </div>
   </section>
 
+  <!-- ============================== PROFILE ============================== -->
+  <section class="screen" id="screen-profile">
+    <div class="container dash">
+
+      <!-- En-tête profil -->
+      <div class="profile-header">
+        <div class="profile-avatar profile-avatar-lg" id="profile-avatar">A</div>
+        <div class="profile-header-info">
+          <h2 id="profile-name">Étudiant</h2>
+          <p id="profile-bio">Aucune bio pour le moment.</p>
+          <span class="matricule-tag" id="profile-matricule">SCD-XX-XXXX-XXXXXX</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <label for="avatar-file" class="upload-btn">📷 Changer la photo</label>
+          <input type="file" id="avatar-file" accept="image/*" class="hidden" />
+          <button class="btn btn-ghost btn-sm" onclick="router.go('dashboard')">← Dashboard</button>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="profile-tabs">
+        <button class="profile-tab active" data-tab="photo"   onclick="profile.switchTab('photo')">📷 Photo</button>
+        <button class="profile-tab"        data-tab="bio"     onclick="profile.switchTab('bio')">✏️ Bio</button>
+        <button class="profile-tab"        data-tab="style"   onclick="profile.switchTab('style')">🎨 Style</button>
+        <button class="profile-tab"        data-tab="account" onclick="profile.switchTab('account')">⚙️ Compte</button>
+      </div>
+
+      <!-- Panel Photo -->
+      <div class="profile-panel active" data-panel="photo">
+        <div class="avatar-preview">
+          <div class="profile-avatar profile-avatar-lg" id="avatar-preview">A</div>
+          <p style="color:var(--white-60);font-size:13px;text-align:center;max-width:400px">
+            Choisis une photo de profil. Format recommandé : carré, 500×500 px minimum.
+          </p>
+          <label for="avatar-file-2" class="upload-btn">📷 Choisir une image</label>
+          <input type="file" id="avatar-file-2" accept="image/*" class="hidden" />
+          <button class="btn btn-ghost btn-sm" onclick="profile.removeAvatar()">🗑️ Supprimer la photo</button>
+        </div>
+      </div>
+
+      <!-- Panel Bio -->
+      <div class="profile-panel" data-panel="bio">
+        <div class="card">
+          <div class="field">
+            <label for="bio-input">Ta bio (200 caractères max)</label>
+            <textarea class="textarea" id="bio-input" maxlength="200" placeholder="Ex : Étudiant en informatique, passionné par l'IA et le développement web…"></textarea>
+          </div>
+          <div class="field">
+            <label for="fullname-input">Nom complet</label>
+            <input class="input" id="fullname-input" placeholder="Ton nom" />
+          </div>
+          <div class="field">
+            <label for="country-input">Pays</label>
+            <select class="input" id="country-input">
+              <option value="">Choisis ton pays</option>
+              <option>Côte d'Ivoire</option><option>Sénégal</option>
+              <option>Mali</option><option>Burkina Faso</option>
+              <option>Bénin</option><option>Togo</option>
+              <option>Niger</option><option>Cameroun</option>
+              <option>Gabon</option><option>Congo</option>
+              <option>RDC</option><option>Maroc</option>
+              <option>Algérie</option><option>Tunisie</option>
+              <option>Égypte</option><option>Nigeria</option>
+              <option>Ghana</option><option>Kenya</option>
+              <option>Afrique du Sud</option><option>France</option>
+              <option>Belgique</option><option>Suisse</option>
+              <option>Canada</option><option>USA</option>
+              <option>Chine</option><option>Japon</option>
+              <option>Inde</option><option>Brésil</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="profile.saveBio()">💾 Enregistrer</button>
+        </div>
+      </div>
+
+      <!-- Panel Style -->
+      <div class="profile-panel" data-panel="style">
+        <div class="card">
+          <h3 style="margin-bottom:16px">Couleur de ton avatar</h3>
+          <div class="color-picker" id="color-picker">
+            <div class="color-swatch" style="background:linear-gradient(135deg,#FFC93C,#FF9A3C)" data-color="#FFC93C"></div>
+            <div class="color-swatch" style="background:linear-gradient(135deg,#00D4FF,#7C3AED)" data-color="#00D4FF"></div>
+            <div class="color-swatch" style="background:linear-gradient(135deg,#22C55E,#16A34A)" data-color="#22C55E"></div>
+            <div class="color-swatch" style="background:linear-gradient(135deg,#EF4444,#DC2626)" data-color="#EF4444"></div>
+            <div class="color-swatch" style="background:linear-gradient(135deg,#7C3AED,#5B21B6)" data-color="#7C3AED"></div>
+            <div class="color-swatch" style="background:linear-gradient(135deg,#EC4899,#BE185D)" data-color="#EC4899"></div>
+            <div class="color-swatch" style="background:linear-gradient(135deg,#F59E0B,#D97706)" data-color="#F59E0B"></div>
+            <div class="color-swatch" style="background:linear-gradient(135deg,#06B6D4,#0891B2)" data-color="#06B6D4"></div>
+          </div>
+          <button class="btn btn-primary" style="margin-top:20px" onclick="profile.saveColor()">💾 Enregistrer la couleur</button>
+        </div>
+      </div>
+
+      <!-- Panel Compte -->
+      <div class="profile-panel" data-panel="account">
+        <div class="card">
+          <h3 style="margin-bottom:16px">Informations du compte</h3>
+          <div class="field">
+            <label>Email</label>
+            <input class="input" id="account-email" disabled />
+          </div>
+          <div class="field">
+            <label>Matricule</label>
+            <input class="input mono" id="account-matricule" disabled />
+          </div>
+          <div class="field">
+            <label>Niveau</label>
+            <input class="input" id="account-level" disabled />
+          </div>
+          <div class="field">
+            <label>XP Total</label>
+            <input class="input" id="account-xp" disabled />
+          </div>
+          <button class="btn btn-danger" style="margin-top:16px" onclick="auth.logout()">🚪 Se déconnecter</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================== CLASSROOM ============================== -->
   <section class="screen" id="screen-classroom">
     <div class="classroom">
       <div class="classroom-header">
@@ -514,6 +827,7 @@ input, select, textarea { font-family: inherit; }
     </div>
   </section>
 
+  <!-- ============================== RANKING ============================== -->
   <section class="screen" id="screen-ranking">
     <div class="container" style="padding:40px 24px">
       <div class="section-head">
@@ -524,6 +838,7 @@ input, select, textarea { font-family: inherit; }
     </div>
   </section>
 
+  <!-- ============================== EXAM ============================== -->
   <section class="screen" id="screen-exam">
     <div class="container" style="padding:40px 24px;max-width:820px">
       <div class="section-head">
@@ -539,6 +854,7 @@ input, select, textarea { font-family: inherit; }
     </div>
   </section>
 
+  <!-- ============================== FOOTER ============================== -->
   <footer class="sd-footer">
     <div class="sd-footer-inner">
       <div class="sd-partners">
@@ -554,18 +870,10 @@ input, select, textarea { font-family: inherit; }
                     <stop offset="50%" stop-color="#00D4FF"/>
                     <stop offset="100%" stop-color="#7C3AED"/>
                   </linearGradient>
-                  <filter id="xot2kk-glow">
-                    <feGaussianBlur stdDeviation="2" result="blur"/>
-                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                  </filter>
                 </defs>
                 <circle cx="60" cy="60" r="55" fill="none" stroke="url(#xot2kk-grad)" stroke-width="2" opacity="0.6"/>
-                <polygon points="60,15 100,37 100,83 60,105 20,83 20,37" fill="none" stroke="url(#xot2kk-grad)" stroke-width="2" filter="url(#xot2kk-glow)"/>
+                <polygon points="60,15 100,37 100,83 60,105 20,83 20,37" fill="none" stroke="url(#xot2kk-grad)" stroke-width="2"/>
                 <text x="60" y="72" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="34" font-weight="700" fill="url(#xot2kk-grad)">X</text>
-                <circle cx="30" cy="30" r="2" fill="#FFC93C"/>
-                <circle cx="90" cy="30" r="2" fill="#00D4FF"/>
-                <circle cx="30" cy="90" r="2" fill="#00D4FF"/>
-                <circle cx="90" cy="90" r="2" fill="#7C3AED"/>
               </svg>
               <div class="sd-partner-info">
                 <div class="sd-partner-name">XOT2KK</div>
@@ -573,7 +881,7 @@ input, select, textarea { font-family: inherit; }
               </div>
             </div>
           </a>
-          <a href="#" class="sd-partner sd-partner-empty" aria-label="Devenir partenaire">
+          <a href="#" class="sd-partner sd-partner-empty">
             <div class="sd-partner-2d">
               <div class="sd-partner-placeholder">＋</div>
               <div class="sd-partner-info">
@@ -608,8 +916,8 @@ input, select, textarea { font-family: inherit; }
         <div class="sd-footer-copy">
           © 2026 <strong>SCHOOLDAY</strong> — L'école de chaque jour, partout dans le monde.
         </div>
-        <div class="sd-footer-partner-tag">
-          Propulsé en partenariat avec <span class="sd-footer-partner-name">XOT2KK</span>
+        <div style="font-size:12px;color:var(--white-40)">
+          Propulsé avec <span class="sd-footer-partner-name">XOT2KK</span>
         </div>
       </div>
     </div>
@@ -624,10 +932,9 @@ input, select, textarea { font-family: inherit; }
 
 <script>
 /* ============================================================
-   SCHOOLDAY — APPLICATION (VERSION CORRIGÉE AVEC PERSISTANCE)
+   SCHOOLDAY — APPLICATION (VERSION PROFIL + 3D + FOND ANIMÉ)
    ============================================================ */
 
-/* ---------- 1. CONFIGURATION FIREBASE ---------- */
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyAF93ggRSmdld7ICevNnQ5ojmLpIz3HJGo",
   authDomain: "universite-ia-mondial.firebaseapp.com",
@@ -640,7 +947,6 @@ const FIREBASE_CONFIG = {
 
 const FIREBASE_ENABLED = !!(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey.length > 20);
 
-/* ---------- 2. DATA — PROFESSEURS IA ---------- */
 const PROFESSORS = {
   mathematics: { name: 'Prof. Sigma', emoji: '🧮', subject: 'Mathématiques',
     greet: "Bonjour ! Je suis Prof. Sigma, ton professeur de mathématiques. Dis-moi ce que tu veux apprendre aujourd'hui : algèbre, géométrie, analyse, statistiques…" },
@@ -662,7 +968,6 @@ const PROFESSORS = {
     greet: "Coucou ! Prof. Pixel. On va parler design, Figma, accessibilité, expérience utilisateur. Montre-moi ton projet !" },
 };
 
-/* ---------- 3. FIREBASE WRAPPER ---------- */
 const Firebase = {
   app: null, auth: null, db: null, analytics: null,
   ready: false, mode: 'demo',
@@ -670,7 +975,7 @@ const Firebase = {
   init() {
     if (!FIREBASE_ENABLED || typeof firebase === 'undefined') {
       this.mode = 'demo';
-      console.log('%c🎓 SCHOOLDAY — Mode DÉMO (localStorage)', 'color:#F59E0B;font-weight:bold');
+      console.log('%c🎓 SCHOOLDAY — Mode DÉMO', 'color:#F59E0B;font-weight:bold');
       this.updateStatusBadge();
       return;
     }
@@ -678,12 +983,9 @@ const Firebase = {
       this.app = firebase.initializeApp(FIREBASE_CONFIG);
       this.auth = firebase.auth();
       this.db = firebase.firestore();
-
-      /* ✅ CORRECTION 1 : Force la persistance locale AVANT toute auth */
       this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-        .then(() => console.log('%c💾 Persistance LOCAL activée (reste connecté)', 'color:#22C55E'))
+        .then(() => console.log('%c💾 Persistance LOCAL activée', 'color:#22C55E'))
         .catch((err) => console.warn('setPersistence error:', err));
-
       try { this.analytics = firebase.analytics(); } catch (e) {}
       this.ready = true;
       this.mode = 'firebase';
@@ -708,9 +1010,7 @@ const Firebase = {
     }
   },
 
-  fv() {
-    return firebase.firestore.FieldValue;
-  },
+  fv() { return firebase.firestore.FieldValue; },
 
   generateMatricule(country) {
     const cc = (country || 'XX').slice(0, 2).toUpperCase();
@@ -721,10 +1021,7 @@ const Firebase = {
 
   async register(data) {
     if (this.mode === 'demo') return LocalStore.register(data);
-
-    /* ✅ CORRECTION 2 : Persistance avant création du compte */
     await this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-
     const { user } = await this.auth.createUserWithEmailAndPassword(data.email, data.password);
     await user.updateProfile({ displayName: data.fullName });
     const matricule = this.generateMatricule(data.country);
@@ -743,6 +1040,9 @@ const Firebase = {
       xp: 0,
       level: 1,
       locale: 'fr',
+      bio: '',
+      avatarUrl: '',
+      avatarColor: '#FFC93C',
       createdAt: this.fv().serverTimestamp(),
       updatedAt: this.fv().serverTimestamp(),
     });
@@ -756,31 +1056,29 @@ const Firebase = {
       updatedAt: this.fv().serverTimestamp(),
     });
 
-    try { this.analytics && this.analytics.logEvent && this.analytics.logEvent('sign_up', { method: 'email', country: data.country }); } catch (e) {}
-
     return {
       matricule,
       user: {
         uid: user.uid,
         email: user.email,
         fullName: data.fullName,
-        matricule: matricule,
+        matricule,
         country: data.country,
         interests: data.interests,
         plan: 'FREE',
         credits: 5,
         xp: 0,
         level: 1,
+        bio: '',
+        avatarUrl: '',
+        avatarColor: '#FFC93C',
       }
     };
   },
 
   async signInWithGoogle() {
     if (this.mode === 'demo') return LocalStore.signInWithGoogle();
-
-    /* ✅ CORRECTION 2 : Persistance avant Google Sign-In */
     await this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-
     const provider = new firebase.auth.GoogleAuthProvider();
     const { user } = await this.auth.signInWithPopup(provider);
 
@@ -790,45 +1088,31 @@ const Firebase = {
     if (!snap.exists) {
       const matricule = this.generateMatricule('FR');
       await ref.set({
-        uid: user.uid,
-        email: user.email,
-        matricule,
+        uid: user.uid, email: user.email, matricule,
         fullName: user.displayName || 'Étudiant',
         phone: user.phoneNumber || '',
         country: 'FR',
         interests: ['mathematics', 'code'],
-        role: 'STUDENT',
-        plan: 'FREE',
-        credits: 5,
-        xp: 0,
-        level: 1,
-        locale: 'fr',
-        photoURL: user.photoURL || '',
+        role: 'STUDENT', plan: 'FREE', credits: 5,
+        xp: 0, level: 1, locale: 'fr',
+        bio: '', avatarUrl: user.photoURL || '', avatarColor: '#FFC93C',
         createdAt: this.fv().serverTimestamp(),
         updatedAt: this.fv().serverTimestamp(),
       });
       await this.db.collection('leaderboard').doc(user.uid).set({
-        uid: user.uid,
-        fullName: user.displayName || 'Étudiant',
-        matricule,
-        country: 'FR',
-        xp: 0,
+        uid: user.uid, fullName: user.displayName || 'Étudiant',
+        matricule, country: 'FR', xp: 0,
         updatedAt: this.fv().serverTimestamp(),
       });
-
       return {
         matricule,
         user: {
-          uid: user.uid,
-          email: user.email,
+          uid: user.uid, email: user.email,
           fullName: user.displayName || 'Étudiant',
-          matricule: matricule,
-          country: 'FR',
+          matricule, country: 'FR',
           interests: ['mathematics', 'code'],
-          plan: 'FREE',
-          credits: 5,
-          xp: 0,
-          level: 1,
+          plan: 'FREE', credits: 5, xp: 0, level: 1,
+          bio: '', avatarUrl: user.photoURL || '', avatarColor: '#FFC93C',
         },
         isNew: true
       };
@@ -838,16 +1122,13 @@ const Firebase = {
     return {
       matricule: data.matricule,
       user: {
-        uid: user.uid,
-        email: user.email,
-        fullName: data.fullName,
-        matricule: data.matricule,
-        country: data.country,
-        interests: data.interests,
-        plan: data.plan || 'FREE',
-        credits: data.credits || 0,
-        xp: data.xp || 0,
-        level: data.level || 1,
+        uid: user.uid, email: user.email,
+        fullName: data.fullName, matricule: data.matricule,
+        country: data.country, interests: data.interests,
+        plan: data.plan || 'FREE', credits: data.credits || 0,
+        xp: data.xp || 0, level: data.level || 1,
+        bio: data.bio || '', avatarUrl: data.avatarUrl || '',
+        avatarColor: data.avatarColor || '#FFC93C',
       },
       isNew: false
     };
@@ -855,29 +1136,20 @@ const Firebase = {
 
   async login(email, password) {
     if (this.mode === 'demo') return LocalStore.login(email, password);
-
-    /* ✅ CORRECTION 2 : Persistance AVANT connexion */
     await this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-
     const { user } = await this.auth.signInWithEmailAndPassword(email, password);
     const snap = await this.db.collection('users').doc(user.uid).get();
     if (!snap.exists) throw new Error('Profil introuvable');
-
     const data = snap.data();
-    try { this.analytics && this.analytics.logEvent && this.analytics.logEvent('login', { method: 'email' }); } catch (e) {}
-
     return {
       user: {
-        uid: user.uid,
-        email: user.email,
-        fullName: data.fullName,
-        matricule: data.matricule,
-        country: data.country,
-        interests: data.interests || [],
-        plan: data.plan || 'FREE',
-        credits: data.credits || 0,
-        xp: data.xp || 0,
-        level: data.level || 1,
+        uid: user.uid, email: user.email,
+        fullName: data.fullName, matricule: data.matricule,
+        country: data.country, interests: data.interests || [],
+        plan: data.plan || 'FREE', credits: data.credits || 0,
+        xp: data.xp || 0, level: data.level || 1,
+        bio: data.bio || '', avatarUrl: data.avatarUrl || '',
+        avatarColor: data.avatarColor || '#FFC93C',
       }
     };
   },
@@ -892,47 +1164,33 @@ const Firebase = {
     try {
       const snap = await this.db.collection('users').doc(uid).get();
       return snap.exists ? (snap.data().xp || 0) : 0;
-    } catch (e) {
-      console.warn('getXP error:', e);
-      return 0;
-    }
+    } catch (e) { return 0; }
   },
 
   async addXP(uid, amount) {
     if (this.mode === 'demo') return LocalStore.addXP(uid, amount);
-
     try {
       await this.db.collection('users').doc(uid).set({
         xp: this.fv().increment(amount),
         updatedAt: this.fv().serverTimestamp(),
       }, { merge: true });
-
       await this.db.collection('leaderboard').doc(uid).set({
         xp: this.fv().increment(amount),
         updatedAt: this.fv().serverTimestamp(),
       }, { merge: true });
-    } catch (e) {
-      console.warn('addXP error:', e);
-    }
+    } catch (e) { console.warn('addXP error:', e); }
   },
 
   async getLeaderboard(limit = 100) {
     if (this.mode === 'demo') return LocalStore.getLeaderboard(limit);
-
     try {
       const snap = await this.db.collection('leaderboard')
-        .orderBy('xp', 'desc')
-        .limit(limit)
-        .get();
-
+        .orderBy('xp', 'desc').limit(limit).get();
       return snap.docs.map((d, i) => {
         const data = d.data();
         return { ...data, xp: data.xp || 0, position: i + 1 };
       });
-    } catch (e) {
-      console.warn('getLeaderboard error:', e);
-      return [];
-    }
+    } catch (e) { return []; }
   },
 
   async getUser(uid) {
@@ -940,24 +1198,42 @@ const Firebase = {
     const snap = await this.db.collection('users').doc(uid).get();
     return snap.exists ? snap.data() : null;
   },
+
+  /* ✅ Mise à jour du profil */
+  async updateProfile(uid, updates) {
+    if (this.mode === 'demo') {
+      const users = LocalStore.getUsers();
+      const idx = users.findIndex(u => u.uid === uid);
+      if (idx >= 0) {
+        users[idx] = { ...users[idx], ...updates };
+        LocalStore.saveUsers(users);
+        LocalStore.setSession(users[idx]);
+        return users[idx];
+      }
+      return null;
+    }
+    await this.db.collection('users').doc(uid).set({
+      ...updates,
+      updatedAt: this.fv().serverTimestamp(),
+    }, { merge: true });
+    return { ...auth.user, ...updates };
+  },
 };
 
-/* ---------- 4. LOCAL STORE (Fallback mode démo) ---------- */
+/* ---------- LOCAL STORE ---------- */
 const LocalStore = {
-  KEY_USERS:   'schoolday.users',
+  KEY_USERS: 'schoolday.users',
   KEY_SESSION: 'schoolday.session',
-  KEY_XP:      'schoolday.xp',
-  KEY_SIM:     'schoolday.sim',
+  KEY_XP: 'schoolday.xp',
+  KEY_SIM: 'schoolday.sim',
 
   getUsers() { return JSON.parse(localStorage.getItem(this.KEY_USERS) || '[]'); },
   saveUsers(u) { localStorage.setItem(this.KEY_USERS, JSON.stringify(u)); },
   findUser(email) { return this.getUsers().find(u => u.email.toLowerCase() === String(email).toLowerCase()); },
   addUser(u) { const l = this.getUsers(); l.push(u); this.saveUsers(l); return u; },
-
   setSession(u) { localStorage.setItem(this.KEY_SESSION, JSON.stringify(u)); },
   getSession() { return JSON.parse(localStorage.getItem(this.KEY_SESSION) || 'null'); },
   clearSession() { localStorage.removeItem(this.KEY_SESSION); },
-
   getXP(uid) {
     const all = JSON.parse(localStorage.getItem(this.KEY_XP) || '{}');
     return all[uid] || 0;
@@ -968,61 +1244,45 @@ const LocalStore = {
     localStorage.setItem(this.KEY_XP, JSON.stringify(all));
     return all[uid];
   },
-
   register(data) {
     if (this.findUser(data.email)) throw new Error('Cet email est déjà utilisé');
     const matricule = Firebase.generateMatricule(data.country);
     const user = {
       uid: 'local-' + Date.now(),
-      matricule,
-      fullName: data.fullName,
-      email: data.email.toLowerCase(),
-      phone: data.phone,
-      country: data.country,
-      password: data.password,
-      interests: data.interests,
-      role: 'STUDENT',
-      plan: 'FREE',
-      credits: 5,
-      xp: 0,
-      level: 1,
+      matricule, fullName: data.fullName,
+      email: data.email.toLowerCase(), phone: data.phone,
+      country: data.country, password: data.password,
+      interests: data.interests, role: 'STUDENT',
+      plan: 'FREE', credits: 5, xp: 0, level: 1,
+      bio: '', avatarUrl: '', avatarColor: '#FFC93C',
     };
     this.addUser(user);
     this.setSession(user);
     return { matricule, user };
   },
-
   signInWithGoogle() {
     const demoUser = {
       uid: 'google-demo-' + Date.now(),
       matricule: Firebase.generateMatricule('FR'),
       fullName: 'Utilisateur Google',
       email: 'google.demo@schoolday.ai',
-      phone: '',
-      country: 'France',
+      phone: '', country: 'France',
       interests: ['mathematics', 'code', 'design'],
-      role: 'STUDENT',
-      plan: 'FREE',
-      credits: 5,
-      xp: 0,
-      level: 1,
+      role: 'STUDENT', plan: 'FREE', credits: 5, xp: 0, level: 1,
+      bio: '', avatarUrl: '', avatarColor: '#FFC93C',
     };
     this.addUser(demoUser);
     this.setSession(demoUser);
     return { matricule: demoUser.matricule, user: demoUser, isNew: true };
   },
-
   login(email, password) {
     const u = this.findUser(email);
     if (!u || u.password !== password) throw new Error('Email ou mot de passe incorrect');
     this.setSession(u);
     return { user: u };
   },
-
   logout() { this.clearSession(); },
-
   getUser(uid) { return this.getUsers().find(u => u.uid === uid); },
-
   getLeaderboard(limit = 100) {
     let sims = JSON.parse(localStorage.getItem(this.KEY_SIM) || 'null');
     if (!sims) {
@@ -1043,25 +1303,16 @@ const LocalStore = {
       }
       localStorage.setItem(this.KEY_SIM, JSON.stringify(sims));
     }
-
-    const reals = this.getUsers()
-      .filter(u => u.role === 'STUDENT')
-      .map(u => ({
-        uid: u.uid,
-        fullName: u.fullName,
-        matricule: u.matricule,
-        country: u.country,
-        xp: this.getXP(u.uid),
-      }));
-
-    return [...sims, ...reals]
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, limit)
-      .map((r, i) => ({ ...r, position: i + 1 }));
+    const reals = this.getUsers().filter(u => u.role === 'STUDENT').map(u => ({
+      uid: u.uid, fullName: u.fullName, matricule: u.matricule,
+      country: u.country, xp: this.getXP(u.uid),
+    }));
+    return [...sims, ...reals].sort((a, b) => b.xp - a.xp)
+      .slice(0, limit).map((r, i) => ({ ...r, position: i + 1 }));
   },
 };
 
-/* ---------- 5. UI HELPERS ---------- */
+/* ---------- UI HELPERS ---------- */
 const UI = {
   toast(msg, type = 'info') {
     const el = document.createElement('div');
@@ -1083,13 +1334,19 @@ const UI = {
     s = s.replace(/\n/g, '<br/>');
     return s;
   },
+  initials(name) {
+    if (!name) return '?';
+    const parts = name.trim().split(' ');
+    return (parts[0][0] + (parts[1] ? parts[1][0] : '')).toUpperCase();
+  },
 };
 
-/* ---------- 6. ROUTER ---------- */
+/* ---------- ROUTER ---------- */
 const router = {
   current: 'home',
   go(screen, params = {}) {
-    if (['dashboard', 'exam', 'ranking', 'classroom'].includes(screen) && !auth.user) {
+    const protectedScreens = ['dashboard', 'profile', 'exam', 'ranking', 'classroom'];
+    if (protectedScreens.includes(screen) && !auth.user) {
       this.go('login'); return;
     }
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -1110,19 +1367,18 @@ const router = {
     }
 
     if (screen === 'dashboard') dashboard.render();
+    if (screen === 'profile')   profile.render();
     if (screen === 'ranking')   ranking.render();
     if (screen === 'exam')      exam.render();
     if (screen === 'classroom') classroom.open(params.subject, params.courseTitle);
   },
 };
 
-/* ---------- 7. AUTH ---------- */
+/* ---------- AUTH ---------- */
 const auth = {
   user: null,
-
   init() {
     if (Firebase.mode === 'firebase') {
-      /* ✅ CORRECTION 3 : onAuthStateChanged avec restauration de session */
       Firebase.auth.onAuthStateChanged(async (fbUser) => {
         try {
           if (fbUser) {
@@ -1130,48 +1386,36 @@ const auth = {
             if (data) {
               this.user = { ...data, uid: fbUser.uid };
               LocalStore.setSession(this.user);
-              /* Rafraîchir la navbar si on est déjà sur une page */
               const navAuth = document.getElementById('nav-auth');
               if (navAuth) {
                 navAuth.textContent = this.user.fullName.split(' ')[0];
                 navAuth.onclick = () => router.go('dashboard');
               }
-              /* Rafraîchir le dashboard si ouvert */
               if (router.current === 'dashboard') dashboard.render();
+              if (router.current === 'profile') profile.render();
               console.log('%c✅ Session restaurée pour ' + this.user.fullName, 'color:#22C55E');
             }
           } else {
             this.user = null;
             LocalStore.clearSession();
-            console.log('%c👋 Session terminée', 'color:#F59E0B');
           }
-        } catch (e) {
-          console.warn('onAuthStateChanged error:', e);
-        }
+        } catch (e) { console.warn(e); }
       });
     } else {
       if (!LocalStore.findUser('admin@schoolday.ai')) {
         LocalStore.addUser({
-          uid: 'admin-001',
-          matricule: 'SCD-AD-2026-000001',
-          fullName: 'Admin SCHOOLDAY',
-          email: 'admin@schoolday.ai',
-          phone: '+2250000000000',
-          country: "Côte d'Ivoire",
-          password: 'Admin123!',
-          interests: ['mathematics', 'code'],
-          role: 'ADMIN',
-          plan: 'MENTORAT',
-          credits: 9999,
-          xp: 0,
-          level: 1,
+          uid: 'admin-001', matricule: 'SCD-AD-2026-000001',
+          fullName: 'Admin SCHOOLDAY', email: 'admin@schoolday.ai',
+          phone: '+2250000000000', country: "Côte d'Ivoire",
+          password: 'Admin123!', interests: ['mathematics', 'code'],
+          role: 'ADMIN', plan: 'MENTORAT', credits: 9999, xp: 0, level: 1,
+          bio: '', avatarUrl: '', avatarColor: '#FFC93C',
         });
       }
       const s = LocalStore.getSession();
       if (s) this.user = s;
     }
   },
-
   async logout() {
     await Firebase.logout();
     this.user = null;
@@ -1180,14 +1424,11 @@ const auth = {
   },
 };
 
-/* ---------- 8. REGISTER ---------- */
+/* ---------- REGISTER ---------- */
 const register = {
-  data: {},
-  selected: new Set(),
-
+  data: {}, selected: new Set(),
   reset() {
-    this.data = {};
-    this.selected = new Set();
+    this.data = {}; this.selected = new Set();
     document.getElementById('form-register-1').classList.remove('hidden');
     document.getElementById('form-register-2').classList.add('hidden');
     document.getElementById('form-register-3').classList.add('hidden');
@@ -1196,7 +1437,6 @@ const register = {
     document.getElementById('step-2').classList.remove('active');
     this.renderSubjects();
   },
-
   step1(e) {
     e.preventDefault();
     const fd = new FormData(e.target);
@@ -1208,13 +1448,11 @@ const register = {
     document.getElementById('form-register-2').classList.remove('hidden');
     document.getElementById('step-2').classList.add('active');
   },
-
   back() {
     document.getElementById('form-register-2').classList.add('hidden');
     document.getElementById('form-register-1').classList.remove('hidden');
     document.getElementById('step-2').classList.remove('active');
   },
-
   renderSubjects() {
     const grid = document.getElementById('subjects-grid');
     grid.innerHTML = Object.entries(PROFESSORS).map(([key, p]) => `
@@ -1232,42 +1470,31 @@ const register = {
       };
     });
   },
-
   async submit(e) {
     e.preventDefault();
     const err = document.getElementById('subjects-error');
     if (this.selected.size === 0) { err.classList.remove('hidden'); return; }
     err.classList.add('hidden');
-
     const btn = document.getElementById('reg-btn-2');
-    btn.disabled = true;
-    btn.textContent = 'Création…';
-
+    btn.disabled = true; btn.textContent = 'Création…';
     try {
       const result = await Firebase.register({
-        ...this.data,
-        interests: Array.from(this.selected),
+        ...this.data, interests: Array.from(this.selected),
       });
-
       auth.user = result.user;
       LocalStore.setSession(result.user);
-
       document.getElementById('matricule-value').textContent = result.matricule;
       document.getElementById('form-register-2').classList.add('hidden');
       document.getElementById('form-register-3').classList.remove('hidden');
       UI.toast('Compte créé avec succès 🎉', 'success');
     } catch (e) {
-      console.error('Register error:', e);
       let msg = e.message || 'Erreur lors de la création';
       if (e.code === 'auth/email-already-in-use') msg = 'Cet email est déjà utilisé';
-      if (e.code === 'auth/weak-password') msg = 'Mot de passe trop faible (6 caractères min)';
-      if (e.code === 'auth/invalid-email') msg = 'Email invalide';
+      if (e.code === 'auth/weak-password') msg = 'Mot de passe trop faible (6 min)';
       UI.toast(msg, 'error');
-      btn.disabled = false;
-      btn.textContent = 'Créer mon compte 🚀';
+      btn.disabled = false; btn.textContent = 'Créer mon compte 🚀';
     }
   },
-
   async google() {
     try {
       const result = await Firebase.signInWithGoogle();
@@ -1276,24 +1503,18 @@ const register = {
       UI.toast(`Bienvenue ${result.user.fullName.split(' ')[0]} !`, 'success');
       router.go('dashboard');
     } catch (e) {
-      console.error('Google error:', e);
-      let msg = e.message || 'Erreur Google Sign-In';
-      if (e.code === 'auth/popup-closed-by-user') msg = 'Fenêtre fermée';
-      if (e.code === 'auth/operation-not-allowed') msg = 'Google non activé dans Firebase Console';
-      UI.toast(msg, 'error');
+      UI.toast(e.message || 'Erreur Google Sign-In', 'error');
     }
   },
 };
 
-/* ---------- 9. LOGIN ---------- */
+/* ---------- LOGIN ---------- */
 const login = {
   async submit(e) {
     e.preventDefault();
     const fd = new FormData(e.target);
     const btn = document.getElementById('login-btn');
-    btn.disabled = true;
-    btn.textContent = 'Connexion…';
-
+    btn.disabled = true; btn.textContent = 'Connexion…';
     try {
       const result = await Firebase.login(fd.get('email'), fd.get('password'));
       auth.user = result.user;
@@ -1301,18 +1522,14 @@ const login = {
       UI.toast(`Bienvenue ${result.user.fullName.split(' ')[0]} !`, 'success');
       router.go('dashboard');
     } catch (e) {
-      console.error('Login error:', e);
       let msg = e.message || 'Erreur de connexion';
       if (e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') msg = 'Email ou mot de passe incorrect';
       if (e.code === 'auth/user-not-found') msg = 'Utilisateur introuvable';
-      if (e.code === 'auth/too-many-requests') msg = 'Trop de tentatives, réessaie plus tard';
       UI.toast(msg, 'error');
     } finally {
-      btn.disabled = false;
-      btn.textContent = 'Se connecter';
+      btn.disabled = false; btn.textContent = 'Se connecter';
     }
   },
-
   async google() {
     try {
       const result = await Firebase.signInWithGoogle();
@@ -1321,15 +1538,12 @@ const login = {
       UI.toast(`Bienvenue ${result.user.fullName.split(' ')[0]} !`, 'success');
       router.go('dashboard');
     } catch (e) {
-      console.error('Google login error:', e);
-      let msg = e.message || 'Erreur Google Sign-In';
-      if (e.code === 'auth/popup-closed-by-user') msg = 'Fenêtre fermée';
-      UI.toast(msg, 'error');
+      UI.toast(e.message || 'Erreur Google Sign-In', 'error');
     }
   },
 };
 
-/* ---------- 10. DASHBOARD (relit Firestore) ---------- */
+/* ---------- DASHBOARD ---------- */
 const dashboard = {
   async render() {
     let u = auth.user;
@@ -1343,9 +1557,16 @@ const dashboard = {
           auth.user = u;
           LocalStore.setSession(u);
         }
-      } catch (e) {
-        console.warn('Refresh user error:', e);
-      }
+      } catch (e) { console.warn(e); }
+    }
+
+    /* Avatar */
+    const avatarEl = document.getElementById('dash-avatar');
+    if (u.avatarUrl) {
+      avatarEl.innerHTML = `<img src="${UI.escape(u.avatarUrl)}" alt="Avatar" />`;
+    } else {
+      avatarEl.innerHTML = UI.initials(u.fullName);
+      avatarEl.style.background = `linear-gradient(135deg, ${u.avatarColor || '#FFC93C'}, #FF9A3C)`;
     }
 
     document.getElementById('dash-hello').textContent = `Salut, ${u.fullName.split(' ')[0]} 👋`;
@@ -1406,10 +1627,149 @@ const dashboard = {
   },
 };
 
-/* ---------- 11. CLASSROOM ---------- */
+/* ---------- PROFILE (NOUVEAU) ---------- */
+const profile = {
+  async render() {
+    const u = auth.user;
+    if (!u) return;
+
+    /* En-tête */
+    const nameEl = document.getElementById('profile-name');
+    const bioEl = document.getElementById('profile-bio');
+    const matEl = document.getElementById('profile-matricule');
+    nameEl.textContent = u.fullName || 'Étudiant';
+    bioEl.textContent = u.bio || 'Aucune bio pour le moment. Clique sur Bio pour en ajouter.';
+    matEl.textContent = u.matricule || 'SCD-XX-XXXX-XXXXXX';
+
+    /* Avatars */
+    this.updateAvatarDisplay(u);
+
+    /* Bio panel */
+    document.getElementById('bio-input').value = u.bio || '';
+    document.getElementById('fullname-input').value = u.fullName || '';
+    document.getElementById('country-input').value = u.country || '';
+
+    /* Account panel */
+    document.getElementById('account-email').value = u.email || '';
+    document.getElementById('account-matricule').value = u.matricule || '';
+    document.getElementById('account-level').value = u.level || 1;
+    document.getElementById('account-xp').value = await Firebase.getXP(u.uid);
+
+    /* Color picker */
+    document.querySelectorAll('.color-swatch').forEach(sw => {
+      sw.classList.toggle('active', sw.dataset.color === (u.avatarColor || '#FFC93C'));
+      sw.onclick = () => {
+        document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+        sw.classList.add('active');
+        this.pendingColor = sw.dataset.color;
+      };
+    });
+  },
+
+  updateAvatarDisplay(u) {
+    const html = u.avatarUrl
+      ? `<img src="${UI.escape(u.avatarUrl)}" alt="Avatar" />`
+      : UI.initials(u.fullName);
+    const bg = u.avatarUrl ? '#FFFFFF' : `linear-gradient(135deg, ${u.avatarColor || '#FFC93C'}, #FF9A3C)`;
+
+    ['profile-avatar', 'avatar-preview'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.innerHTML = html;
+        el.style.background = bg;
+      }
+    });
+  },
+
+  switchTab(tab) {
+    document.querySelectorAll('.profile-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+    document.querySelectorAll('.profile-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === tab));
+  },
+
+  /* Upload photo via URL externe (pour l'instant) */
+  async setAvatarUrl(url) {
+    if (!auth.user) return;
+    try {
+      const updated = await Firebase.updateProfile(auth.user.uid, { avatarUrl: url });
+      auth.user = { ...auth.user, avatarUrl: url };
+      LocalStore.setSession(auth.user);
+      this.updateAvatarDisplay(auth.user);
+      UI.toast('Photo de profil enregistrée ✅', 'success');
+    } catch (e) {
+      UI.toast('Erreur lors de la sauvegarde', 'error');
+    }
+  },
+
+  async removeAvatar() {
+    if (!auth.user) return;
+    const updated = await Firebase.updateProfile(auth.user.uid, { avatarUrl: '' });
+    auth.user = { ...auth.user, avatarUrl: '' };
+    LocalStore.setSession(auth.user);
+    this.updateAvatarDisplay(auth.user);
+    UI.toast('Photo supprimée', 'info');
+  },
+
+  async saveBio() {
+    if (!auth.user) return;
+    const bio = document.getElementById('bio-input').value.trim();
+    const fullName = document.getElementById('fullname-input').value.trim();
+    const country = document.getElementById('country-input').value;
+    if (!fullName || fullName.length < 3) {
+      UI.toast('Nom trop court', 'error'); return;
+    }
+    try {
+      await Firebase.updateProfile(auth.user.uid, { bio, fullName, country });
+      auth.user = { ...auth.user, bio, fullName, country };
+      LocalStore.setSession(auth.user);
+      this.render();
+      UI.toast('Profil mis à jour ✅', 'success');
+    } catch (e) {
+      UI.toast('Erreur lors de la sauvegarde', 'error');
+    }
+  },
+
+  async saveColor() {
+    if (!auth.user) return;
+    const color = this.pendingColor || auth.user.avatarColor || '#FFC93C';
+    try {
+      await Firebase.updateProfile(auth.user.uid, { avatarColor: color });
+      auth.user = { ...auth.user, avatarColor: color };
+      LocalStore.setSession(auth.user);
+      this.updateAvatarDisplay(auth.user);
+      UI.toast('Couleur enregistrée ✅', 'success');
+    } catch (e) {
+      UI.toast('Erreur lors de la sauvegarde', 'error');
+    }
+  },
+
+  initFileUploads() {
+    const handleFile = (file) => {
+      if (!file) return;
+      if (file.size > 500 * 1024) {
+        UI.toast('Image trop lourde (500 Ko max). Compresse-la.', 'error');
+        return;
+      }
+      /* Conversion en base64 (pour démo rapide, à migrer vers Firebase Storage) */
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target.result;
+        this.setAvatarUrl(dataUrl);
+      };
+      reader.readAsDataURL(file);
+    };
+
+    ['avatar-file', 'avatar-file-2'].forEach(id => {
+      const input = document.getElementById(id);
+      if (input) {
+        input.onchange = (e) => handleFile(e.target.files[0]);
+      }
+    });
+  },
+};
+
+/* ---------- CLASSROOM ---------- */
 const classroom = {
   subject: null, history: [], busy: false,
-
   open(subject, courseTitle) {
     this.subject = subject;
     const p = PROFESSORS[subject];
@@ -1417,7 +1777,6 @@ const classroom = {
     document.getElementById('cl-avatar').textContent = p.emoji;
     document.getElementById('cl-name').textContent = p.name;
     document.getElementById('cl-subject').textContent = courseTitle || p.subject;
-
     if (this.history.length === 0) {
       this.history.push({ role: 'assistant', content: p.greet });
       this.renderMessages();
@@ -1425,7 +1784,6 @@ const classroom = {
     this.renderQuickPrompts();
     setTimeout(() => document.getElementById('cl-input').focus(), 100);
   },
-
   renderQuickPrompts() {
     const prompts = {
       mathematics: ['Explique les dérivées', 'Théorème de Pythagore', 'Exercice sur les fractions'],
@@ -1442,9 +1800,7 @@ const classroom = {
     const el = document.getElementById('cl-quick');
     el.innerHTML = list.map(t => `<button onclick="classroom.quick(${JSON.stringify(t)})">${UI.escape(t)}</button>`).join('');
   },
-
   quick(text) { document.getElementById('cl-input').value = text; this.send(); },
-
   renderMessages() {
     const box = document.getElementById('cl-messages');
     box.innerHTML = this.history.map(m => `
@@ -1452,13 +1808,10 @@ const classroom = {
         <div class="bubble">${UI.md(m.content)}</div>
       </div>
     `).join('') + (this.busy ? `
-      <div class="msg ai">
-        <div class="bubble"><span class="typing"><span></span><span></span><span></span></span></div>
-      </div>
+      <div class="msg ai"><div class="bubble"><span class="typing"><span></span><span></span><span></span></span></div></div>
     ` : '');
     box.scrollTop = box.scrollHeight;
   },
-
   async send() {
     if (this.busy) return;
     const input = document.getElementById('cl-input');
@@ -1474,7 +1827,6 @@ const classroom = {
     let i = 0, built = '';
     this.history.push({ role: 'assistant', content: '' });
     const idx = this.history.length - 1;
-
     const timer = setInterval(async () => {
       if (i >= words.length) {
         clearInterval(timer);
@@ -1491,71 +1843,67 @@ const classroom = {
       this.renderMessages();
     }, 26);
   },
-
   generateReply(question) {
     const q = question.toLowerCase();
     const p = PROFESSORS[this.subject];
-
     const R = {
       mathematics: {
-        derive: `**Les dérivées expliquées simplement** 🧮\n\nLa dérivée mesure la **vitesse de changement** d'une fonction.\n\nExemple : si f(x) = x², la dérivée f'(x) = 2x.\n\n**Règle de base** : f(x) = xⁿ → f'(x) = n·xⁿ⁻¹\n\n**Exercice** : dérive f(x) = 3x³ + 2x.\nRéponse : f'(x) = 9x² + 2.`,
-        pythagore: `**Théorème de Pythagore**\n\nDans un triangle rectangle :\n\n\`a² + b² = c²\`\n\n**Exemple** : a = 3, b = 4 → c = √(9+16) = 5.\n\n**Exercice** : un triangle a des côtés 6 et 8. Combien vaut l'hypoténuse ? (Réponse : 10)`,
-        fraction: `**Additionner des fractions**\n\nPour \`1/2 + 1/3\` :\n\n1. Dénominateur commun : 6\n2. \`1/2 = 3/6\` et \`1/3 = 2/6\`\n3. Additionner : \`3/6 + 2/6 = 5/6\`\n\n**Règle** : on n'additionne jamais les dénominateurs !\n\n**Exercice** : calcule \`3/4 + 1/6\`. (Réponse : 11/12)`,
+        derive: `**Les dérivées expliquées simplement** 🧮\n\nLa dérivée mesure la **vitesse de changement** d'une fonction.\n\n**Règle** : f(x) = xⁿ → f'(x) = n·xⁿ⁻¹\n\n**Exercice** : dérive f(x) = 3x³ + 2x.\nRéponse : f'(x) = 9x² + 2.`,
+        pythagore: `**Théorème de Pythagore**\n\n\`a² + b² = c²\`\n\n**Exemple** : a = 3, b = 4 → c = 5.`,
+        fraction: `**Additionner des fractions**\n\n\`1/2 + 1/3 = 3/6 + 2/6 = 5/6\``,
       },
       code: {
-        for: `**La boucle for en Python** 💻\n\n\`\`\`python\nfor i in range(5):\n    print("Tour", i)\n\`\`\`\n\n**Variante sur une liste** :\n\n\`\`\`python\nfruits = ["pomme", "banane", "mangue"]\nfor f in fruits:\n    print(f)\n\`\`\`\n\n**À toi** : affiche les nombres pairs de 0 à 10.`,
-        fonction: `**Les fonctions en Python**\n\n\`\`\`python\ndef saluer(nom):\n    return f"Bonjour {nom} !"\n\nprint(saluer("Aya"))\n\`\`\`\n\n**Bonnes pratiques** :\n- Nom explicite (\`calculer_moyenne\`, pas \`f\`)\n- Une fonction = une responsabilité\n\n**Exercice** : crée \`addition(a, b)\` qui retourne la somme.`,
-        calcul: `**Mini-calculateur en Python**\n\n\`\`\`python\ndef calculer(a, b, op):\n    if op == "+": return a + b\n    if op == "-": return a - b\n    if op == "*": return a * b\n    if op == "/":\n        return a / b if b != 0 else "Erreur"\n\nprint(calculer(10, 5, "+"))  # 15\n\`\`\``,
+        for: `**La boucle for en Python** 💻\n\n\`\`\`python\nfor i in range(5):\n    print("Tour", i)\n\`\`\``,
+        fonction: `**Les fonctions en Python**\n\n\`\`\`python\ndef saluer(nom):\n    return f"Bonjour {nom} !"\n\`\`\``,
+        calcul: `**Mini-calculateur**\n\n\`\`\`python\ndef calculer(a, b, op):\n    if op == "+": return a + b\n\`\`\``,
       },
       satellite: {
-        orbite: `**Qu'est-ce qu'une orbite ?** 🛰️\n\nUne orbite est la trajectoire d'un objet autour d'un corps céleste, maintenue par la **gravité**.\n\n**Formule** : \`T = 2π√(a³/μ)\`\n\n**Types** :\n- LEO (200-2000 km) : ISS, Starlink\n- MEO (2000-35000 km) : GPS\n- GEO (35786 km) : satellites TV`,
-        kepler: `**Les 3 lois de Kepler**\n\n1. **Orbite elliptique** : le Soleil est à un foyer\n2. **Loi des aires** : aires égales en temps égaux\n3. **Loi des périodes** : \`T² ∝ a³\``,
-        gps: `**Comment fonctionne le GPS**\n\n1. **24+ satellites** en orbite MEO\n2. Chaque satellite émet sa position + l'heure\n3. Ton récepteur calcule le **délai** du signal\n4. **Trilatération** : 4 satellites minimum`,
+        orbite: `**Orbite** 🛰️\n\n\`T = 2π√(a³/μ)\`\n\n**Types** : LEO, MEO, GEO`,
+        kepler: `**Les 3 lois de Kepler**\n\n1. Orbite elliptique\n2. Loi des aires\n3. \`T² ∝ a³\``,
+        gps: `**GPS**\n\n1. 24+ satellites\n2. Signal + heure\n3. **Trilatération**`,
       },
       chinese: {
-        ton: `**Les 4 tons du mandarin** 🇨🇳\n\n- **mā** (1er) : 妈 = maman\n- **má** (2e) : 麻 = chanvre\n- **mǎ** (3e) : 马 = cheval\n- **mà** (4e) : 骂 = gronder\n\n**Exercice** : 妈妈骂马 (māma mà mǎ)`,
-        bonjour: `**Dire bonjour en mandarin**\n\n- 你好 (nǐ hǎo) → Bonjour (informel)\n- 您好 (nín hǎo) → Bonjour (poli)\n- 早上好 (zǎoshang hǎo) → Bonjour (matin)\n- 晚上好 (wǎnshang hǎo) → Bonsoir`,
-        nombre: `**Nombres 1 à 10**\n\n一 (yī) 1, 二 (èr) 2, 三 (sān) 3, 四 (sì) 4, 五 (wǔ) 5\n六 (liù) 6, 七 (qī) 7, 八 (bā) 8, 九 (jiǔ) 9, 十 (shí) 10\n\n**Astuce** : 十一 = 11, 二十 = 20`,
+        ton: `**Les 4 tons** 🇨🇳\n\n- mā (妈) = maman\n- má (麻) = chanvre\n- mǎ (马) = cheval\n- mà (骂) = gronder`,
+        bonjour: `**Bonjour**\n\n- 你好 (nǐ hǎo)\n- 您好 (nín hǎo)\n- 早上好 (zǎoshang hǎo)`,
+        nombre: `**Nombres 1-10**\n\n一 二 三 四 五 六 七 八 九 十`,
       },
       army: {
-        defense: `**Stratégie défensive** 🎖️\n\n1. **Terrain** : exploiter le relief\n2. **Profondeur** : défense en couches\n3. **Mobilité** : réserves prêtes\n4. **Renseignement** : savoir avant d'agir\n\n**Éthique** : la défense protège les populations.`,
-        leadership: `**Leadership militaire**\n\n- **Exemplarité** : le chef fait ce qu'il demande\n- **Clarté** : ordres simples\n- **Confiance** : déléguer\n- **Calme** : sous pression, inspirer`,
-        cyber: `**Cybersécurité défensive**\n\n1. **MFA** partout\n2. **Moindre privilège**\n3. **Mises à jour** régulières\n4. **Sauvegardes** 3-2-1\n5. **Sensibilisation** : 90 % des fuites = humain`,
+        defense: `**Stratégie défensive** 🎖️\n\n1. Terrain\n2. Profondeur\n3. Mobilité\n4. Renseignement`,
+        leadership: `**Leadership militaire**\n\n- Exemplarité\n- Clarté\n- Confiance\n- Calme`,
+        cyber: `**Cybersécurité**\n\n1. MFA partout\n2. Moindre privilège\n3. Sauvegardes 3-2-1`,
       },
       business: {
-        plan: `**Créer un business plan** 💼\n\n1. **Problème**\n2. **Solution**\n3. **Marché**\n4. **Business model**\n5. **Traction**\n6. **Équipe**\n7. **Prévisions**\n\n**Astuce** : 1 page pour commencer (lean canvas).`,
-        pitch: `**Pitch investisseurs (5 min)**\n\n- **30 s** : problème\n- **1 min** : solution + démo\n- **1 min** : marché\n- **1 min** : traction\n- **1 min** : demande + équipe\n\n**Règle** : demande claire à la fin.`,
-        marge: `**Calculer une marge**\n\n- **Marge brute** = (PV − Coût direct) / PV × 100\n- **Marge nette** = Bénéfice net / CA × 100\n\n**Exemple** : vente 100 €, coût 40 € → marge brute 60 %.`,
+        plan: `**Business plan** 💼\n\n1. Problème\n2. Solution\n3. Marché\n4. Business model\n5. Équipe`,
+        pitch: `**Pitch investisseurs**\n\n- 30s problème\n- 1 min solution\n- 1 min marché\n- 1 min traction`,
+        marge: `**Marge**\n\nMarge brute = (PV − Coût) / PV × 100`,
       },
       family: {
-        comm: `**Communication bienveillante** 👨‍👩‍👧\n\nMéthode OSBD :\n\n1. **Observation** : « Quand tu rentres après 22h… »\n2. **Sentiment** : « …je me sens inquiet… »\n3. **Besoin** : « …car j'ai besoin de sécurité… »\n4. **Demande** : « …peux-tu m'envoyer un message ? »`,
-        colere: `**Gérer les colères (enfants)**\n\n1. **Accueillir** l'émotion\n2. **Nommer** : « Tu es frustré parce que… »\n3. **Rassurer** : présence calme\n4. **Attendre** : 5-20 min\n5. **Parler** une fois calme`,
-        rituel: `**Rituels familiaux**\n\n- **Matin** : 1 gratitude chacun\n- **Soir** : 3 questions\n- **Hebdo** : conseil de famille (10 min)\n- **Mensuel** : sortie à tour de rôle`,
+        comm: `**Communication bienveillante** 👨‍👩‍👧\n\nOSBD : Observation, Sentiment, Besoin, Demande`,
+        colere: `**Gérer les colères**\n\n1. Accueillir\n2. Nommer\n3. Rassurer\n4. Attendre\n5. Parler`,
+        rituel: `**Rituels familiaux**\n\n- Matin : gratitude\n- Soir : 3 questions\n- Hebdo : conseil`,
       },
       sport: {
-        programme: `**Programme débutant (4 semaines)** ⚽\n\n**Sem. 1-2** :\n- 3×/sem : 20 min marche + étirements\n- 2×/sem : 3×10 squats + 5 pompes\n\n**Sem. 3-4** :\n- 3×/sem : 30 min footing\n- 3×/sem : 3×15 squats, 3×8 pompes, gainage 3×30 s`,
-        nutrition: `**Nutrition sportive**\n\n- **Protéines** : 1,2 à 1,8 g/kg/jour\n- **Glucides** : énergie (riz, patate douce)\n- **Lipides** : bons gras (huile olive, avocat)\n- **Eau** : 2 à 3 L/jour`,
-        echauffement: `**Échauffement en 7 min**\n\n1. Marche rapide — 60 s\n2. Rotations épaules — 30 s\n3. Rotations hanches — 30 s\n4. Montées de genoux — 60 s\n5. Talons-fesses — 60 s\n6. Fentes avant — 60 s\n7. Étirements dynamiques — 60 s`,
+        programme: `**Programme débutant** ⚽\n\n- 3×/sem : 20 min marche\n- 2×/sem : squats + pompes`,
+        nutrition: `**Nutrition sportive**\n\n- Protéines : 1,2-1,8 g/kg\n- Glucides : énergie\n- Eau : 2-3 L/jour`,
+        echauffement: `**Échauffement 7 min**\n\n1. Marche rapide\n2. Rotations\n3. Montées de genoux`,
       },
       design: {
-        ux: `**Principes UX fondamentaux** 🎨\n\n1. **Utilité**\n2. **Usabilité**\n3. **Désirabilité**\n4. **Accessibilité**\n5. **Créativité**\n\n**Loi de Hick** : plus il y a de choix, plus la décision est lente.`,
-        design_system: `**Créer un design system**\n\n1. **Tokens** : couleurs, typo, espacements\n2. **Composants** : boutons, inputs, cards\n3. **Patterns** : navigation, formulaires\n4. **Documentation**\n\n**Outil** : Figma + variables.`,
-        a11y: `**Accessibilité WCAG**\n\n- **Contraste** : ≥ 4,5:1\n- **Taille police** : ≥ 16 px\n- **Alt texte** sur les images\n- **Navigation clavier**\n- **Focus visible**`,
+        ux: `**Principes UX** 🎨\n\n1. Utilité\n2. Usabilité\n3. Désirabilité\n4. Accessibilité`,
+        design_system: `**Design system**\n\n1. Tokens\n2. Composants\n3. Patterns\n4. Documentation`,
+        a11y: `**Accessibilité WCAG**\n\n- Contraste ≥ 4,5:1\n- Taille ≥ 16 px\n- Alt texte`,
       },
     };
-
     const banks = R[this.subject] || {};
     for (const key of Object.keys(banks)) {
       if (q.includes(key.slice(0, 5)) || key.split('_').some(k => q.includes(k))) {
         return banks[key];
       }
     }
-
-    return `Merci pour ta question ! Je suis ${p.name}, ton professeur de ${p.subject}.\n\nVoici comment je te propose d'avancer :\n\n1. Reformule ce que tu sais déjà sur « ${question} »\n2. Je te donnerai une explication claire\n3. On fera un exercice ensemble\n4. Je te corrigerai avec un feedback personnalisé\n\n**Essaie une des suggestions ci-dessous** ou pose ta question plus précisément. Tu gagnes **+15 XP** à chaque échange ! 🎓`;
+    return `Merci pour ta question ! Je suis ${p.name}, ton professeur de ${p.subject}.\n\nReformule ta question ou essaie une suggestion ci-dessous. Tu gagnes **+15 XP** à chaque échange ! 🎓`;
   },
 };
 
-/* ---------- 12. RANKING ---------- */
+/* ---------- RANKING ---------- */
 const ranking = {
   async render() {
     const board = await Firebase.getLeaderboard(100);
@@ -1577,7 +1925,7 @@ const ranking = {
   },
 };
 
-/* ---------- 13. EXAM ---------- */
+/* ---------- EXAM ---------- */
 const exam = {
   selected: {},
   data: [
@@ -1591,7 +1939,6 @@ const exam = {
       options: ['5/6', '2/5', '1/5', '2/6'], answer: 0,
       explain: 'Dénominateur commun 6 : 3/6 + 2/6 = 5/6.' },
   ],
-
   render() {
     const el = document.getElementById('exam-body');
     el.innerHTML = this.data.map((d, i) => `
@@ -1615,32 +1962,26 @@ const exam = {
     document.getElementById('exam-result').innerHTML = '';
     this.selected = {};
   },
-
   reset() { this.render(); UI.toast('Examen réinitialisé', 'info'); },
-
   async submit() {
     const total = this.data.length;
     const answered = Object.keys(this.selected).length;
-    if (answered < total) { UI.toast(`Réponds aux ${total} questions (${answered}/${total})`, 'error'); return; }
-
+    if (answered < total) { UI.toast(`Réponds aux ${total} questions`, 'error'); return; }
     let score = 0;
     const details = this.data.map((d, i) => {
       const ok = this.selected[i] === d.answer;
       if (ok) score++;
       return `<li style="margin-bottom:10px"><strong>${i + 1}. ${ok ? '✅' : '❌'}</strong> ${UI.escape(d.explain)}</li>`;
     }).join('');
-
     const final = Math.round((score / total) * 20);
     const xpGain = score * 100;
-
     if (auth.user) await Firebase.addXP(auth.user.uid, xpGain);
-
     document.getElementById('exam-result').innerHTML = `
       <div class="card" style="border-color:var(--gold)">
         <div style="text-align:center">
           <div style="font-size:56px">${score === total ? '🏆' : score >= total / 2 ? '👍' : '📚'}</div>
           <div style="font-size:32px;font-weight:700;color:var(--gold);margin-top:8px">${final}/20</div>
-          <div style="font-size:13px;color:var(--white-60)">${score}/${total} bonnes réponses • +${xpGain} XP</div>
+          <div style="font-size:13px;color:var(--white-60)">${score}/${total} • +${xpGain} XP</div>
         </div>
         <ul style="margin-top:20px;list-style:none;padding:0">${details}</ul>
       </div>
@@ -1649,7 +1990,7 @@ const exam = {
   },
 };
 
-/* ---------- 14. INIT ---------- */
+/* ---------- INIT ---------- */
 function renderHomeProfs() {
   const grid = document.getElementById('home-profs');
   grid.innerHTML = Object.entries(PROFESSORS).map(([key, p]) => `
@@ -1666,17 +2007,10 @@ function init() {
   auth.init();
   register.reset();
   renderHomeProfs();
+  profile.initFileUploads();
   router.go(auth.user ? 'dashboard' : 'home');
-
-  console.log('%c🎓 SCHOOLDAY', 'font-size:22px;font-weight:bold;color:#FFC93C');
+  console.log('%c🎓 SCHOOLDAY v2', 'font-size:22px;font-weight:bold;color:#FFC93C');
   console.log(`%cMode : ${Firebase.mode.toUpperCase()}`, 'color:#00D4FF;font-weight:bold');
-  if (Firebase.mode === 'firebase') {
-    console.log('%cProjet : universite-ia-mondial', 'color:#7C3AED');
-    console.log('%c✅ Firebase opérationnel', 'color:#22C55E;font-weight:bold');
-    console.log('%c💾 Persistance activée : la session reste après fermeture', 'color:#00D4FF');
-  } else {
-    console.log('%c⚠️ Mode démo (localStorage)', 'color:#F59E0B');
-  }
 }
 
 document.addEventListener('DOMContentLoaded', init);
