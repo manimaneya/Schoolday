@@ -624,7 +624,7 @@ input, select, textarea { font-family: inherit; }
 
 <script>
 /* ============================================================
-   SCHOOLDAY — APPLICATION (VERSION CORRIGÉE FINALE)
+   SCHOOLDAY — APPLICATION (VERSION CORRIGÉE AVEC PERSISTANCE)
    ============================================================ */
 
 /* ---------- 1. CONFIGURATION FIREBASE ---------- */
@@ -678,6 +678,12 @@ const Firebase = {
       this.app = firebase.initializeApp(FIREBASE_CONFIG);
       this.auth = firebase.auth();
       this.db = firebase.firestore();
+
+      /* ✅ CORRECTION 1 : Force la persistance locale AVANT toute auth */
+      this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => console.log('%c💾 Persistance LOCAL activée (reste connecté)', 'color:#22C55E'))
+        .catch((err) => console.warn('setPersistence error:', err));
+
       try { this.analytics = firebase.analytics(); } catch (e) {}
       this.ready = true;
       this.mode = 'firebase';
@@ -715,6 +721,9 @@ const Firebase = {
 
   async register(data) {
     if (this.mode === 'demo') return LocalStore.register(data);
+
+    /* ✅ CORRECTION 2 : Persistance avant création du compte */
+    await this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
     const { user } = await this.auth.createUserWithEmailAndPassword(data.email, data.password);
     await user.updateProfile({ displayName: data.fullName });
@@ -768,6 +777,9 @@ const Firebase = {
 
   async signInWithGoogle() {
     if (this.mode === 'demo') return LocalStore.signInWithGoogle();
+
+    /* ✅ CORRECTION 2 : Persistance avant Google Sign-In */
+    await this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
     const provider = new firebase.auth.GoogleAuthProvider();
     const { user } = await this.auth.signInWithPopup(provider);
@@ -843,6 +855,9 @@ const Firebase = {
 
   async login(email, password) {
     if (this.mode === 'demo') return LocalStore.login(email, password);
+
+    /* ✅ CORRECTION 2 : Persistance AVANT connexion */
+    await this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
     const { user } = await this.auth.signInWithEmailAndPassword(email, password);
     const snap = await this.db.collection('users').doc(user.uid).get();
@@ -1107,6 +1122,7 @@ const auth = {
 
   init() {
     if (Firebase.mode === 'firebase') {
+      /* ✅ CORRECTION 3 : onAuthStateChanged avec restauration de session */
       Firebase.auth.onAuthStateChanged(async (fbUser) => {
         try {
           if (fbUser) {
@@ -1114,11 +1130,20 @@ const auth = {
             if (data) {
               this.user = { ...data, uid: fbUser.uid };
               LocalStore.setSession(this.user);
+              /* Rafraîchir la navbar si on est déjà sur une page */
+              const navAuth = document.getElementById('nav-auth');
+              if (navAuth) {
+                navAuth.textContent = this.user.fullName.split(' ')[0];
+                navAuth.onclick = () => router.go('dashboard');
+              }
+              /* Rafraîchir le dashboard si ouvert */
               if (router.current === 'dashboard') dashboard.render();
+              console.log('%c✅ Session restaurée pour ' + this.user.fullName, 'color:#22C55E');
             }
           } else {
             this.user = null;
             LocalStore.clearSession();
+            console.log('%c👋 Session terminée', 'color:#F59E0B');
           }
         } catch (e) {
           console.warn('onAuthStateChanged error:', e);
@@ -1304,13 +1329,12 @@ const login = {
   },
 };
 
-/* ---------- 10. DASHBOARD (✅ CORRIGÉ : relit Firestore) ---------- */
+/* ---------- 10. DASHBOARD (relit Firestore) ---------- */
 const dashboard = {
   async render() {
     let u = auth.user;
     if (!u) return;
 
-    /* ✅ CORRECTION : relire les données depuis Firestore à chaque affichage */
     if (Firebase.mode === 'firebase' && u.uid) {
       try {
         const fresh = await Firebase.getUser(u.uid);
@@ -1649,6 +1673,7 @@ function init() {
   if (Firebase.mode === 'firebase') {
     console.log('%cProjet : universite-ia-mondial', 'color:#7C3AED');
     console.log('%c✅ Firebase opérationnel', 'color:#22C55E;font-weight:bold');
+    console.log('%c💾 Persistance activée : la session reste après fermeture', 'color:#00D4FF');
   } else {
     console.log('%c⚠️ Mode démo (localStorage)', 'color:#F59E0B');
   }
