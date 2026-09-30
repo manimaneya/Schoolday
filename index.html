@@ -45,33 +45,23 @@ input, select, textarea { font-family: inherit; }
 .mono { font-family: 'JetBrains Mono', monospace; }
 .hidden { display: none !important; }
 
-/* ============================================================
-   ARRIÈRE-PLAN ANIMÉ
-   ============================================================ */
-.hero-bg {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
-}
+.hero-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .hero-bg-photo {
   position: absolute; inset: 0;
   background-image: url('https://i.imgur.com/REMPLACE_PAR_TA_PHOTO.jpg');
-  background-size: cover;
-  background-position: center;
-  opacity: 0.18;
-  filter: blur(3px) brightness(0.6);
+  background-size: cover; background-position: center;
+  opacity: 0.18; filter: blur(3px) brightness(0.6);
   animation: slowZoom 30s ease-in-out infinite alternate;
 }
-@keyframes slowZoom {
-  0%   { transform: scale(1) translate(0, 0); }
-  100% { transform: scale(1.1) translate(-2%, -2%); }
-}
+@keyframes slowZoom { 0% { transform: scale(1) translate(0,0); } 100% { transform: scale(1.1) translate(-2%,-2%); } }
 .hero-bg-overlay {
   position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(11,30,63,0.75) 0%, rgba(11,30,63,0.55) 40%, rgba(11,30,63,0.85) 100%);
 }
 .orbs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.32; }
-.orb-1 { width: 520px; height: 520px; background: var(--cyan);   top: -120px; left: -120px; animation: float1 18s ease-in-out infinite; }
-.orb-2 { width: 400px; height: 400px; background: var(--gold);   bottom: -150px; right: -100px; opacity: 0.20; animation: float2 22s ease-in-out infinite; }
+.orb-1 { width: 520px; height: 520px; background: var(--cyan); top: -120px; left: -120px; animation: float1 18s ease-in-out infinite; }
+.orb-2 { width: 400px; height: 400px; background: var(--gold); bottom: -150px; right: -100px; opacity: 0.20; animation: float2 22s ease-in-out infinite; }
 .orb-3 { width: 380px; height: 380px; background: var(--purple); top: 40%; left: 50%; opacity: 0.15; animation: float3 26s ease-in-out infinite; }
 @keyframes float1 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(40px, 30px); } }
 @keyframes float2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-50px, -30px); } }
@@ -80,9 +70,6 @@ input, select, textarea { font-family: inherit; }
 .app { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; }
 .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-/* ============================================================
-   NAVBAR
-   ============================================================ */
 .nav {
   position: sticky; top: 0; z-index: 100;
   backdrop-filter: blur(20px) saturate(150%);
@@ -92,63 +79,31 @@ input, select, textarea { font-family: inherit; }
 }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; max-width: 1200px; margin: 0 auto; gap: 16px; }
 
-/* ============================================================
-   LOGO 3D STYLO (ANIMÉ)
-   ============================================================ */
 .logo {
   display: flex; align-items: center; gap: 12px;
   font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px;
   color: var(--white); cursor: pointer; background: none; border: none; padding: 0;
   perspective: 800px;
 }
-.logo-3d {
-  width: 48px; height: 48px;
-  position: relative;
-  flex-shrink: 0;
-  transform-style: preserve-3d;
-  animation: logoRotate 6s ease-in-out infinite;
-}
-@keyframes logoRotate {
-  0%, 100% { transform: rotateY(-15deg) rotateX(5deg); }
-  50%      { transform: rotateY(15deg) rotateX(-5deg); }
-}
+.logo-3d { width: 48px; height: 48px; position: relative; flex-shrink: 0; transform-style: preserve-3d; animation: logoRotate 6s ease-in-out infinite; }
+@keyframes logoRotate { 0%, 100% { transform: rotateY(-15deg) rotateX(5deg); } 50% { transform: rotateY(15deg) rotateX(-5deg); } }
 .logo-pen {
   position: absolute; inset: 0;
   background: linear-gradient(135deg, var(--gold) 0%, #FF9A3C 50%, var(--gold-2) 100%);
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow:
-    0 6px 20px rgba(255,201,60,0.35),
-    inset 0 -3px 8px rgba(0,0,0,0.15),
-    inset 0 3px 8px rgba(255,255,255,0.4);
-  transform: translateZ(0);
+  border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 20px rgba(255,201,60,0.35), inset 0 -3px 8px rgba(0,0,0,0.15), inset 0 3px 8px rgba(255,255,255,0.4);
 }
 .logo-pen::before {
-  content: '';
-  position: absolute;
-  top: -3px; left: -3px; right: -3px; bottom: -3px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, var(--gold), var(--cyan), var(--purple));
-  z-index: -1;
-  opacity: 0.5;
-  filter: blur(8px);
-  animation: glowPulse 3s ease-in-out infinite;
+  content: ''; position: absolute; top: -3px; left: -3px; right: -3px; bottom: -3px;
+  border-radius: 14px; background: linear-gradient(135deg, var(--gold), var(--cyan), var(--purple));
+  z-index: -1; opacity: 0.5; filter: blur(8px); animation: glowPulse 3s ease-in-out infinite;
 }
-@keyframes glowPulse {
-  0%,100% { opacity: 0.4; }
-  50%     { opacity: 0.8; }
-}
-.logo-pen svg {
-  width: 28px; height: 28px;
-  filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3));
-}
+@keyframes glowPulse { 0%,100% { opacity: 0.4; } 50% { opacity: 0.8; } }
+.logo-pen svg { width: 28px; height: 28px; filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3)); }
 .logo-pen::after {
-  content: '';
-  position: absolute;
-  top: 4px; left: 8px; right: 8px; height: 40%;
+  content: ''; position: absolute; top: 4px; left: 8px; right: 8px; height: 40%;
   background: linear-gradient(180deg, rgba(255,255,255,0.5), transparent);
-  border-radius: 8px 8px 50% 50%;
-  pointer-events: none;
+  border-radius: 8px 8px 50% 50%; pointer-events: none;
 }
 .logo-text span { color: var(--gold); }
 
@@ -162,7 +117,6 @@ input, select, textarea { font-family: inherit; }
 .fb-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-/* Boutons */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; border: none; cursor: pointer; text-decoration: none; transition: var(--transition); white-space: nowrap; }
 .btn-primary { background: var(--gold); color: var(--night); box-shadow: var(--shadow-gold); }
 .btn-primary:hover { background: var(--gold-2); transform: translateY(-1px); }
@@ -260,26 +214,17 @@ input, select, textarea { font-family: inherit; }
 .course-progress { width: 100%; height: 4px; background: var(--white-10); border-radius: 100px; margin-top: 6px; overflow: hidden; }
 .course-progress > div { height: 100%; background: linear-gradient(90deg, var(--gold), #FF9A3C); transition: width 0.6s ease; }
 
-/* ============================================================
-   PROFIL — AVATAR + PERSONNALISATION
-   ============================================================ */
 .profile-avatar {
   width: 80px; height: 80px; border-radius: 50%;
   border: 3px solid var(--gold);
   display: flex; align-items: center; justify-content: center;
   font-size: 32px; font-weight: 700; color: var(--night);
   background: linear-gradient(135deg, var(--gold), #FF9A3C);
-  overflow: hidden;
-  flex-shrink: 0;
+  overflow: hidden; flex-shrink: 0;
   box-shadow: 0 8px 24px rgba(255,201,60,0.35);
 }
-.profile-avatar img {
-  width: 100%; height: 100%; object-fit: cover;
-}
-.profile-avatar-lg {
-  width: 140px; height: 140px; font-size: 56px;
-  border-width: 4px;
-}
+.profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.profile-avatar-lg { width: 140px; height: 140px; font-size: 56px; border-width: 4px; }
 .upload-btn {
   display: inline-block; padding: 10px 20px;
   background: var(--gold); color: var(--night);
@@ -300,17 +245,13 @@ input, select, textarea { font-family: inherit; }
 .profile-header-info h2 { font-size: 26px; margin-bottom: 4px; }
 .profile-header-info p { color: var(--white-60); font-size: 14px; }
 .profile-header-info .matricule-tag {
-  display: inline-block;
-  padding: 4px 12px; border-radius: 100px;
+  display: inline-block; padding: 4px 12px; border-radius: 100px;
   background: rgba(255,201,60,0.15); color: var(--gold);
   font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;
   margin-top: 8px;
 }
 
-.profile-tabs {
-  display: flex; gap: 4px; margin-bottom: 24px;
-  border-bottom: 1px solid var(--white-10); overflow-x: auto;
-}
+.profile-tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid var(--white-10); overflow-x: auto; }
 .profile-tab {
   padding: 12px 20px; background: none; border: none;
   color: var(--white-60); font-size: 14px; font-weight: 600;
@@ -326,23 +267,15 @@ input, select, textarea { font-family: inherit; }
 
 .avatar-preview {
   display: flex; flex-direction: column; align-items: center; gap: 16px;
-  padding: 24px;
-  background: var(--white-05); border-radius: var(--radius);
+  padding: 24px; background: var(--white-05); border-radius: var(--radius);
   border: 1px solid var(--white-10);
 }
 
-.color-picker {
-  display: flex; gap: 12px; flex-wrap: wrap;
-}
-.color-swatch {
-  width: 44px; height: 44px; border-radius: 50%;
-  border: 3px solid transparent; cursor: pointer;
-  transition: var(--transition);
-}
+.color-picker { display: flex; gap: 12px; flex-wrap: wrap; }
+.color-swatch { width: 44px; height: 44px; border-radius: 50%; border: 3px solid transparent; cursor: pointer; transition: var(--transition); }
 .color-swatch:hover { transform: scale(1.1); }
 .color-swatch.active { border-color: var(--white); box-shadow: 0 0 0 3px var(--gold); }
 
-/* Classroom */
 .classroom { display: flex; flex-direction: column; height: calc(100vh - 73px); }
 .classroom-header { padding: 16px 24px; border-bottom: 1px solid var(--white-10); display: flex; align-items: center; gap: 14px; }
 .classroom-header .avatar { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--cyan), var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
@@ -429,10 +362,6 @@ input, select, textarea { font-family: inherit; }
 
 <body>
 
-<!-- ============================================================
-     ARRIÈRE-PLAN ANIMÉ
-     ⚠️ Remplace l'URL ci-dessous par ta photo (Imgur, Cloudinary...)
-     ============================================================ -->
 <div class="hero-bg" aria-hidden="true">
   <div class="hero-bg-photo"></div>
   <div class="hero-bg-overlay"></div>
@@ -451,7 +380,6 @@ input, select, textarea { font-family: inherit; }
   <nav class="nav" role="navigation" aria-label="Navigation principale">
     <div class="nav-inner">
       <button class="logo" onclick="router.go('home')" aria-label="Accueil">
-        <!-- ✅ LOGO 3D STYLO ANIMÉ -->
         <div class="logo-3d">
           <div class="logo-pen">
             <svg viewBox="0 0 24 24" fill="none" stroke="#0B1E3F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -684,8 +612,6 @@ input, select, textarea { font-family: inherit; }
   <!-- ============================== PROFILE ============================== -->
   <section class="screen" id="screen-profile">
     <div class="container dash">
-
-      <!-- En-tête profil -->
       <div class="profile-header">
         <div class="profile-avatar profile-avatar-lg" id="profile-avatar">A</div>
         <div class="profile-header-info">
@@ -700,7 +626,6 @@ input, select, textarea { font-family: inherit; }
         </div>
       </div>
 
-      <!-- Tabs -->
       <div class="profile-tabs">
         <button class="profile-tab active" data-tab="photo"   onclick="profile.switchTab('photo')">📷 Photo</button>
         <button class="profile-tab"        data-tab="bio"     onclick="profile.switchTab('bio')">✏️ Bio</button>
@@ -708,7 +633,6 @@ input, select, textarea { font-family: inherit; }
         <button class="profile-tab"        data-tab="account" onclick="profile.switchTab('account')">⚙️ Compte</button>
       </div>
 
-      <!-- Panel Photo -->
       <div class="profile-panel active" data-panel="photo">
         <div class="avatar-preview">
           <div class="profile-avatar profile-avatar-lg" id="avatar-preview">A</div>
@@ -721,7 +645,6 @@ input, select, textarea { font-family: inherit; }
         </div>
       </div>
 
-      <!-- Panel Bio -->
       <div class="profile-panel" data-panel="bio">
         <div class="card">
           <div class="field">
@@ -756,7 +679,6 @@ input, select, textarea { font-family: inherit; }
         </div>
       </div>
 
-      <!-- Panel Style -->
       <div class="profile-panel" data-panel="style">
         <div class="card">
           <h3 style="margin-bottom:16px">Couleur de ton avatar</h3>
@@ -774,7 +696,6 @@ input, select, textarea { font-family: inherit; }
         </div>
       </div>
 
-      <!-- Panel Compte -->
       <div class="profile-panel" data-panel="account">
         <div class="card">
           <h3 style="margin-bottom:16px">Informations du compte</h3>
@@ -929,6 +850,7 @@ input, select, textarea { font-family: inherit; }
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-analytics-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage-compat.js"></script>
 
 <script>
 /* ============================================================
@@ -936,13 +858,13 @@ input, select, textarea { font-family: inherit; }
    ============================================================ */
 
 const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyAF93ggRSmdld7ICevNnQ5ojmLpIz3HJGo",
-  authDomain: "universite-ia-mondial.firebaseapp.com",
-  projectId: "universite-ia-mondial",
-  storageBucket: "universite-ia-mondial.firebasestorage.app",
-  messagingSenderId: "609452352968",
-  appId: "1:609452352968:web:c3067b8e35418c8b910cfd",
-  measurementId: "G-E0ZVC52YJQ"
+  apiKey: "AIzaSyC-5TM4vU--DdihrgyuvvqbHzmuT34Famk",
+  authDomain: "schoolday-2d701.firebaseapp.com",
+  projectId: "schoolday-2d701",
+  storageBucket: "schoolday-2d701.firebasestorage.app",
+  messagingSenderId: "586508261842",
+  appId: "1:586508261842:web:5ab08f8f7029ecb759500b",
+  measurementId: "G-C9HPH3824F"
 };
 
 const FIREBASE_ENABLED = !!(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey.length > 20);
@@ -969,13 +891,14 @@ const PROFESSORS = {
 };
 
 const Firebase = {
-  app: null, auth: null, db: null, analytics: null,
+  app: null, auth: null, db: null, storage: null, analytics: null,
   ready: false, mode: 'demo',
 
-  init() {
+  /* ✅ INIT ASYNC avec test Firestore */
+  async init() {
     if (!FIREBASE_ENABLED || typeof firebase === 'undefined') {
       this.mode = 'demo';
-      console.log('%c🎓 SCHOOLDAY — Mode DÉMO', 'color:#F59E0B;font-weight:bold');
+      console.warn('⚠️ Firebase SDK non chargé — mode démo');
       this.updateStatusBadge();
       return;
     }
@@ -983,15 +906,31 @@ const Firebase = {
       this.app = firebase.initializeApp(FIREBASE_CONFIG);
       this.auth = firebase.auth();
       this.db = firebase.firestore();
-      this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-        .then(() => console.log('%c💾 Persistance LOCAL activée', 'color:#22C55E'))
-        .catch((err) => console.warn('setPersistence error:', err));
+      this.storage = firebase.storage();
+
+      await this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+      console.log('%c💾 Persistance LOCAL activée', 'color:#22C55E');
+
+      /* Test Firestore */
+      try {
+        await this.db.collection('_health').doc('ping').set({
+          at: firebase.firestore.FieldValue.serverTimestamp(),
+          ua: navigator.userAgent.slice(0, 80)
+        });
+        console.log('✅ Firestore accessible');
+      } catch (fsErr) {
+        console.error('❌ Firestore KO :', fsErr.code, fsErr.message);
+        UI.toast('Firestore bloqué : ' + fsErr.code, 'error');
+      }
+
       try { this.analytics = firebase.analytics(); } catch (e) {}
+
       this.ready = true;
       this.mode = 'firebase';
-      console.log('%c🔥 Firebase connecté — universite-ia-mondial', 'color:#22C55E;font-weight:bold');
+      console.log('%c🔥 Firebase connecté — schoolday-2d701', 'color:#22C55E;font-weight:bold');
     } catch (e) {
       console.error('❌ Firebase init failed:', e);
+      UI.toast('Erreur Firebase : ' + (e.code || e.message), 'error');
       this.mode = 'demo';
     }
     this.updateStatusBadge();
@@ -1027,51 +966,28 @@ const Firebase = {
     const matricule = this.generateMatricule(data.country);
 
     await this.db.collection('users').doc(user.uid).set({
-      uid: user.uid,
-      email: user.email,
-      matricule,
-      fullName: data.fullName,
-      phone: data.phone,
-      country: data.country,
-      interests: data.interests,
-      role: 'STUDENT',
-      plan: 'FREE',
-      credits: 5,
-      xp: 0,
-      level: 1,
-      locale: 'fr',
-      bio: '',
-      avatarUrl: '',
-      avatarColor: '#FFC93C',
+      uid: user.uid, email: user.email, matricule,
+      fullName: data.fullName, phone: data.phone, country: data.country,
+      interests: data.interests, role: 'STUDENT', plan: 'FREE', credits: 5,
+      xp: 0, level: 1, locale: 'fr',
+      bio: '', avatarUrl: '', avatarColor: '#FFC93C',
       createdAt: this.fv().serverTimestamp(),
       updatedAt: this.fv().serverTimestamp(),
     });
 
     await this.db.collection('leaderboard').doc(user.uid).set({
-      uid: user.uid,
-      fullName: data.fullName,
-      matricule,
-      country: data.country,
-      xp: 0,
+      uid: user.uid, fullName: data.fullName, matricule,
+      country: data.country, xp: 0,
       updatedAt: this.fv().serverTimestamp(),
     });
 
     return {
       matricule,
       user: {
-        uid: user.uid,
-        email: user.email,
-        fullName: data.fullName,
-        matricule,
-        country: data.country,
-        interests: data.interests,
-        plan: 'FREE',
-        credits: 5,
-        xp: 0,
-        level: 1,
-        bio: '',
-        avatarUrl: '',
-        avatarColor: '#FFC93C',
+        uid: user.uid, email: user.email, fullName: data.fullName,
+        matricule, country: data.country, interests: data.interests,
+        plan: 'FREE', credits: 5, xp: 0, level: 1,
+        bio: '', avatarUrl: '', avatarColor: '#FFC93C',
       }
     };
   },
@@ -1090,8 +1006,7 @@ const Firebase = {
       await ref.set({
         uid: user.uid, email: user.email, matricule,
         fullName: user.displayName || 'Étudiant',
-        phone: user.phoneNumber || '',
-        country: 'FR',
+        phone: user.phoneNumber || '', country: 'FR',
         interests: ['mathematics', 'code'],
         role: 'STUDENT', plan: 'FREE', credits: 5,
         xp: 0, level: 1, locale: 'fr',
@@ -1199,7 +1114,6 @@ const Firebase = {
     return snap.exists ? snap.data() : null;
   },
 
-  /* ✅ Mise à jour du profil */
   async updateProfile(uid, updates) {
     if (this.mode === 'demo') {
       const users = LocalStore.getUsers();
@@ -1477,6 +1391,11 @@ const register = {
     err.classList.add('hidden');
     const btn = document.getElementById('reg-btn-2');
     btn.disabled = true; btn.textContent = 'Création…';
+
+    if (Firebase.mode !== 'firebase') {
+      UI.toast('⚠️ Firebase indisponible — inscription non persistée', 'error');
+    }
+
     try {
       const result = await Firebase.register({
         ...this.data, interests: Array.from(this.selected),
@@ -1515,6 +1434,11 @@ const login = {
     const fd = new FormData(e.target);
     const btn = document.getElementById('login-btn');
     btn.disabled = true; btn.textContent = 'Connexion…';
+
+    if (Firebase.mode !== 'firebase') {
+      UI.toast('⚠️ Firebase indisponible — connexion locale uniquement', 'error');
+    }
+
     try {
       const result = await Firebase.login(fd.get('email'), fd.get('password'));
       auth.user = result.user;
@@ -1560,7 +1484,6 @@ const dashboard = {
       } catch (e) { console.warn(e); }
     }
 
-    /* Avatar */
     const avatarEl = document.getElementById('dash-avatar');
     if (u.avatarUrl) {
       avatarEl.innerHTML = `<img src="${UI.escape(u.avatarUrl)}" alt="Avatar" />`;
@@ -1627,35 +1550,27 @@ const dashboard = {
   },
 };
 
-/* ---------- PROFILE (NOUVEAU) ---------- */
+/* ---------- PROFILE ---------- */
 const profile = {
   async render() {
     const u = auth.user;
     if (!u) return;
 
-    /* En-tête */
-    const nameEl = document.getElementById('profile-name');
-    const bioEl = document.getElementById('profile-bio');
-    const matEl = document.getElementById('profile-matricule');
-    nameEl.textContent = u.fullName || 'Étudiant';
-    bioEl.textContent = u.bio || 'Aucune bio pour le moment. Clique sur Bio pour en ajouter.';
-    matEl.textContent = u.matricule || 'SCD-XX-XXXX-XXXXXX';
+    document.getElementById('profile-name').textContent = u.fullName || 'Étudiant';
+    document.getElementById('profile-bio').textContent = u.bio || 'Aucune bio pour le moment. Clique sur Bio pour en ajouter.';
+    document.getElementById('profile-matricule').textContent = u.matricule || 'SCD-XX-XXXX-XXXXXX';
 
-    /* Avatars */
     this.updateAvatarDisplay(u);
 
-    /* Bio panel */
     document.getElementById('bio-input').value = u.bio || '';
     document.getElementById('fullname-input').value = u.fullName || '';
     document.getElementById('country-input').value = u.country || '';
 
-    /* Account panel */
     document.getElementById('account-email').value = u.email || '';
     document.getElementById('account-matricule').value = u.matricule || '';
     document.getElementById('account-level').value = u.level || 1;
     document.getElementById('account-xp').value = await Firebase.getXP(u.uid);
 
-    /* Color picker */
     document.querySelectorAll('.color-swatch').forEach(sw => {
       sw.classList.toggle('active', sw.dataset.color === (u.avatarColor || '#FFC93C'));
       sw.onclick = () => {
@@ -1686,23 +1601,39 @@ const profile = {
     document.querySelectorAll('.profile-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === tab));
   },
 
-  /* Upload photo via URL externe (pour l'instant) */
+  /* ✅ Upload vers Firebase Storage */
   async setAvatarUrl(url) {
     if (!auth.user) return;
     try {
-      const updated = await Firebase.updateProfile(auth.user.uid, { avatarUrl: url });
-      auth.user = { ...auth.user, avatarUrl: url };
+      let finalUrl = url;
+
+      if (url.startsWith('data:')) {
+        if (Firebase.mode === 'firebase' && Firebase.storage) {
+          const blob = await (await fetch(url)).blob();
+          const storageRef = Firebase.storage
+            .ref(`avatars/${auth.user.uid}_${Date.now()}.jpg`);
+          const snap = await storageRef.put(blob);
+          finalUrl = await snap.ref.getDownloadURL();
+          console.log('✅ Image uploadée :', finalUrl);
+        } else {
+          UI.toast('Mode démo : image non persistée', 'info');
+        }
+      }
+
+      await Firebase.updateProfile(auth.user.uid, { avatarUrl: finalUrl });
+      auth.user = { ...auth.user, avatarUrl: finalUrl };
       LocalStore.setSession(auth.user);
       this.updateAvatarDisplay(auth.user);
       UI.toast('Photo de profil enregistrée ✅', 'success');
     } catch (e) {
-      UI.toast('Erreur lors de la sauvegarde', 'error');
+      console.error('Upload error:', e);
+      UI.toast('Erreur upload : ' + (e.code || e.message), 'error');
     }
   },
 
   async removeAvatar() {
     if (!auth.user) return;
-    const updated = await Firebase.updateProfile(auth.user.uid, { avatarUrl: '' });
+    await Firebase.updateProfile(auth.user.uid, { avatarUrl: '' });
     auth.user = { ...auth.user, avatarUrl: '' };
     LocalStore.setSession(auth.user);
     this.updateAvatarDisplay(auth.user);
@@ -1742,27 +1673,25 @@ const profile = {
     }
   },
 
+  /* ✅ Limite passée à 2 Mo */
   initFileUploads() {
     const handleFile = (file) => {
       if (!file) return;
-      if (file.size > 500 * 1024) {
-        UI.toast('Image trop lourde (500 Ko max). Compresse-la.', 'error');
-        return;
+      if (!file.type.startsWith('image/')) {
+        UI.toast('Choisis une image', 'error'); return;
       }
-      /* Conversion en base64 (pour démo rapide, à migrer vers Firebase Storage) */
+      if (file.size > 2 * 1024 * 1024) {
+        UI.toast('Image trop lourde (2 Mo max)', 'error'); return;
+      }
       const reader = new FileReader();
-      reader.onload = (e) => {
-        const dataUrl = e.target.result;
-        this.setAvatarUrl(dataUrl);
-      };
+      reader.onload = (e) => this.setAvatarUrl(e.target.result);
+      reader.onerror = () => UI.toast('Erreur lecture fichier', 'error');
       reader.readAsDataURL(file);
     };
 
     ['avatar-file', 'avatar-file-2'].forEach(id => {
       const input = document.getElementById(id);
-      if (input) {
-        input.onchange = (e) => handleFile(e.target.files[0]);
-      }
+      if (input) input.onchange = (e) => handleFile(e.target.files[0]);
     });
   },
 };
@@ -2002,8 +1931,9 @@ function renderHomeProfs() {
   `).join('');
 }
 
-function init() {
-  Firebase.init();
+/* ✅ INIT ASYNC */
+async function init() {
+  await Firebase.init();
   auth.init();
   register.reset();
   renderHomeProfs();
